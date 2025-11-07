@@ -261,7 +261,7 @@
     </div>
     <script>
       window.addEventListener("DOMContentLoaded", async () => {
-        const response = await fetch("./assets/wordData.json");
+        const response = await fetch("./assets/projects.json");
         const wordToClass = await response.json();
 
         const words = document.querySelectorAll(".word");
