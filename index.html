@@ -260,70 +260,9 @@
       </div>
     </div>
     <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        const wordToClass = {
-          "Chien de pluie": {
-            description: "Description for Chien de pluie.",
-            images: [
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-            ],
-          },
-          "Landes de gascognes": {
-            description: "Description for Landes de gascognes.",
-            images: [
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-            ],
-          },
-          Éclairs: {
-            description: "Description for Éclairs.",
-            images: [
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-            ],
-          },
-          Reportages: {
-            description: "Description for Reportages.",
-            images: [
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-            ],
-          },
-          Notes: {
-            description: "Description for Notes.",
-            images: [
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-            ],
-          },
-          "Confession d'un enfoiré": {
-            description: "Description for Confession d'un enfoiré.",
-            images: [
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-              "./assets/placeholder2.jpg",
-              "./assets/placeholder.jpg",
-            ],
-          },
-        };
+      window.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch("./assets/wordData.json");
+        const wordToClass = await response.json();
 
         const words = document.querySelectorAll(".word");
         const descriptionElement = document.querySelector(".word-description");
