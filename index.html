@@ -489,7 +489,7 @@
           return placeholder;
         }
 
-        function moveWordBack(word, placeholder) {
+        function removeWord(word, placeholder) {
           if (!placeholder || !placeholder.parentNode) return;
 
           // Get current position
@@ -501,16 +501,14 @@
           // Remove from top container and set to fixed at current position
           word.classList.remove("at-top");
           word.classList.add("moving");
-          word.style.top = startRect.top + "px";
-          word.style.left = startRect.left + "px";
           document.body.appendChild(word);
 
           // Force reflow
           word.offsetHeight;
 
           // Animate back to placeholder position
-          word.style.top = targetRect.top + "px";
-          word.style.left = targetRect.left + "px";
+          //word.style.top = targetRect.top + "px";
+          //word.style.left = targetRect.left + "px";
 
           // After animation, put it back in place
           setTimeout(() => {
@@ -526,34 +524,45 @@
 
         words.forEach((word) => {
           word.addEventListener("click", () => {
-            // If clicking the same word, do nothing
             if (word === currentSelectedWord) return;
 
-            // Move previous word back if exists
-            if (currentSelectedWord && currentPlaceholder) {
-              moveWordBack(currentSelectedWord, currentPlaceholder);
-            }
+            const openNewProject = () => {
+              // Move new word to top
+              currentPlaceholder = moveWordToTop(word);
+              currentSelectedWord = word;
 
-            // Move new word to top
-            currentPlaceholder = moveWordToTop(word);
-            currentSelectedWord = word;
+              const wordData = wordToClass[word.textContent.trim()];
+              descriptionElement.innerHTML = wordData
+                ? wordData.description
+                : "";
+              updateCarousel(wordData ? wordData.images : []);
 
-            const wordData = wordToClass[word.textContent.trim()];
-            descriptionElement.innerHTML = "";
-
-            if (wordData) {
-              descriptionElement.innerHTML = wordData.description;
-              updateCarousel(wordData.images || []);
-            } else {
-              updateCarousel([]);
-            }
-
-            // Show carousel and push word cloud if first time
-            if (!carouselVisible) {
-              carouselVisible = true;
+              // Show carousel + push cloud
               carousselContainer.classList.add("visible");
               allWordsContainer.classList.add("pushed");
+            };
+
+            // If the carousel is not open yet → just open normally
+            if (!carouselVisible) {
+              carouselVisible = true;
+              openNewProject();
+              return;
             }
+
+            // If it *is* open → close first
+            carousselContainer.classList.remove("visible");
+            allWordsContainer.classList.remove("pushed");
+
+            // After close animation finishes:
+            setTimeout(() => {
+              // Move back previous selected word
+              if (currentSelectedWord && currentPlaceholder) {
+                removeWord(currentSelectedWord, currentPlaceholder);
+              }
+
+              // Now open with new selected word
+              openNewProject();
+            }, 500); // match the CSS transition duration
           });
         });
 
