@@ -2,25 +2,6 @@
 <html>
   <head>
     <style>
-      .glitch-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: fit-content;
-        height: 100%;
-        display: grid;
-        pointer-events: none;
-        overflow: hidden;
-      }
-
-      .glitch-rect {
-        width: 10px;
-        height: 10px;
-        background: black;
-        opacity: 1;
-        transition: opacity 0.15s ease;
-      }
-
       @font-face {
         font-family: "Avenir Black";
         src: url(assets/Avenir\ Black.ttf);
@@ -40,6 +21,15 @@
       body {
         height: 100%;
         margin: 0;
+      }
+
+      /* Helper to hide the SVG filter structure from layout */
+      .svg-filters {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        pointer-events: none;
       }
 
       .container {
@@ -70,16 +60,23 @@
         opacity: 1;
       }
 
+      /* Apply the glitch filter initially. 
+         The JS will animate/remove it.
+      */
+      .maurice-lebrun,
+      .headline {
+        /* This ID matches the SVG filter defined in HTML */
+        filter: url(#glitch-filter);
+        will-change: filter; /* Optimize performance */
+      }
+
       .maurice-lebrun {
-        padding-top: 5px;
         font-family: "Avenir Black";
         margin: 0;
         font-size: 60px;
         line-height: 0.8;
         letter-spacing: 2px;
         white-space: pre;
-        position: relative;
-        overflow: hidden;
       }
 
       p.headline {
@@ -253,12 +250,32 @@
     </style>
   </head>
   <body>
+    <svg class="svg-filters">
+      <defs>
+        <filter id="glitch-filter" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.5"
+            numOctaves="1"
+            result="noise"
+            id="glitch-turbulence"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale="10"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            id="glitch-disp"
+          />
+        </filter>
+      </defs>
+    </svg>
+
     <div class="container">
       <div class="content">
-        <h1 class="maurice-lebrun"><span>MAURICE LEBRUN</span></h1>
-        <p class="headline">
-          <span>ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE</span>
-        </p>
+        <h1 class="maurice-lebrun">MAURICE LEBRUN</h1>
+        <p class="headline">ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE</p>
         <p class="location">Bordeaux - FRANCE</p>
         <div class="caroussel-container">
           <div class="selected-word-container"></div>
@@ -273,7 +290,6 @@
             <p class="word-description"></p>
           </div>
         </div>
-        <!-- list des projets -->
         <div class="all-words">
           <span class="word">Chien de pluie</span
           ><span class="word">Landes de gascognes</span
@@ -281,7 +297,7 @@
           ><span class="word">Notes</span
           ><span class="word">Confession d'un enfoiré</span>
         </div>
-        <a href="mailto:"
+        <a href="#"
           ><img
             src="./assets/letter.jpg"
             width="40px"
@@ -291,6 +307,50 @@
     </div>
     <script>
       window.addEventListener("DOMContentLoaded", async () => {
+        // --- START GLITCH EFFECT LOGIC ---
+        function triggerGlitchEffect() {
+          const turbulence = document.getElementById("glitch-turbulence");
+          const displacement = document.getElementById("glitch-disp");
+          const targets = document.querySelectorAll(
+            ".maurice-lebrun, .headline"
+          );
+
+          let startTime = performance.now();
+          const duration = 800;
+          const maxScale = 200;
+
+          function animateGlitch(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Invert progress: 1 -> 0
+            const intensity = 1 - progress;
+
+            if (progress < 1) {
+              // 1. Randomize the noise seed to make it look "active" (like TV static)
+              // We simulate seed change by slightly altering baseFrequency or seed attribute if supported
+              // Changing seed attribute is the standard way:
+              turbulence.setAttribute("seed", Math.round(Math.random() * 100));
+
+              // 2. Reduce the displacement amount (scale) step by step
+              // We use easeOutQuad for a natural "settling" feeling
+              const currentScale = maxScale * (intensity * intensity);
+              displacement.setAttribute("scale", currentScale);
+
+              requestAnimationFrame(animateGlitch);
+            } else {
+              // Finish: remove filter completely to ensure crisp text rendering
+              targets.forEach((el) => (el.style.filter = "none"));
+            }
+          }
+
+          requestAnimationFrame(animateGlitch);
+        }
+
+        // Run the glitch immediately
+        triggerGlitchEffect();
+        // --- END GLITCH EFFECT LOGIC ---
+
         const response = await fetch("./assets/projects.json");
         const wordToClass = await response.json();
 
@@ -569,81 +629,6 @@
             lightbox.classList.remove("visible");
           }
         });
-      });
-    </script>
-    <script>
-      function glitchText(targetSelector, duration = 700) {
-        const el = document.querySelector(targetSelector);
-        const rect = el.getBoundingClientRect();
-
-        const overlay = document.createElement("div");
-        overlay.style.position = "absolute";
-        overlay.style.top = 0;
-        overlay.style.left = 0;
-        overlay.style.width = rect.width + "px";
-        overlay.style.height = rect.height + "px";
-        overlay.style.pointerEvents = "none";
-        overlay.style.overflow = "hidden";
-
-        el.style.position = "relative";
-        el.style.color = "transparent";
-        el.appendChild(overlay);
-
-        function spawnRects() {
-          overlay.innerHTML = "";
-          const rectCount = 2;
-
-          for (let i = 0; i < rectCount; i++) {
-            const r = document.createElement("div");
-            const w = 5 + Math.random() * 300;
-            const h = 5 + Math.random() * 50;
-            const x = Math.random() * (rect.width - w);
-            const y = Math.random() * (rect.height - h);
-
-            r.style.position = "absolute";
-            r.style.left = x + "px";
-            r.style.top = y + "px";
-            r.style.width = w + "px";
-            r.style.height = h + "px";
-            r.style.background = "black";
-            r.style.opacity = Math.random() * 0.9;
-
-            overlay.appendChild(r);
-          }
-        }
-
-        spawnRects();
-        const scramble = setInterval(spawnRects, 80);
-
-        setTimeout(() => {
-          clearInterval(scramble);
-
-          overlay.innerHTML = "";
-
-          const bar = document.createElement("div");
-          bar.style.position = "absolute";
-          bar.style.left = rect.width * 0.05 + "px";
-          bar.style.top = rect.height / 2 - 5 + "px";
-          bar.style.width = rect.width * 0.9 + "px";
-          bar.style.height = "30px";
-          bar.style.background = "black";
-          bar.style.opacity = 1;
-
-          overlay.appendChild(bar);
-
-          setTimeout(() => {
-            overlay.style.opacity = 0;
-
-            setTimeout(() => {
-              el.style.color = "black";
-              overlay.remove();
-            }, 50);
-          }, 20);
-        }, duration);
-      }
-
-      window.addEventListener("DOMContentLoaded", () => {
-        glitchText(".maurice-lebrun > span");
       });
     </script>
   </body>

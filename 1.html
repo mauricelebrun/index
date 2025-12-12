@@ -2,25 +2,6 @@
 <html>
   <head>
     <style>
-      .glitch-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: fit-content;
-        height: 100%;
-        display: grid;
-        pointer-events: none;
-        overflow: hidden;
-      }
-
-      .glitch-rect {
-        width: 10px;
-        height: 10px;
-        background: black;
-        opacity: 1;
-        transition: opacity 0.15s ease;
-      }
-
       @font-face {
         font-family: "Avenir Black";
         src: url(assets/Avenir\ Black.ttf);
@@ -71,15 +52,14 @@
       }
 
       .maurice-lebrun {
-        padding-top: 5px;
         font-family: "Avenir Black";
         margin: 0;
         font-size: 60px;
         line-height: 0.8;
         letter-spacing: 2px;
         white-space: pre;
-        position: relative;
-        overflow: hidden;
+        /* Ensure height doesn't collapse during glitch if font metrics differ slightly */
+        min-height: 48px;
       }
 
       p.headline {
@@ -255,9 +235,14 @@
   <body>
     <div class="container">
       <div class="content">
-        <h1 class="maurice-lebrun"><span>MAURICE LEBRUN</span></h1>
-        <p class="headline">
-          <span>ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE</span>
+        <h1 class="maurice-lebrun" data-value="MAURICE LEBRUN">
+          MAURICE LEBRUN
+        </h1>
+        <p
+          class="headline"
+          data-value="ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE"
+        >
+          ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE
         </p>
         <p class="location">Bordeaux - FRANCE</p>
         <div class="caroussel-container">
@@ -273,7 +258,6 @@
             <p class="word-description"></p>
           </div>
         </div>
-        <!-- list des projets -->
         <div class="all-words">
           <span class="word">Chien de pluie</span
           ><span class="word">Landes de gascognes</span
@@ -281,7 +265,7 @@
           ><span class="word">Notes</span
           ><span class="word">Confession d'un enfoiré</span>
         </div>
-        <a href="mailto:"
+        <a href="#"
           ><img
             src="./assets/letter.jpg"
             width="40px"
@@ -290,7 +274,64 @@
       </div>
     </div>
     <script>
+      // Glitch Effect Helper Function
+      // Includes mosaic characters (█, ▓, ▒, ░) for the visual effect
+      const glitchChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789█▓▒░";
+
+      function runGlitchEffect(element, duration = 1000) {
+        if (!element) return;
+
+        // Store original text
+        const originalText = element.dataset.value || element.innerText;
+        let startTime = null;
+
+        function animate(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // Determine how many characters should be revealed based on progress
+          const revealIndex = Math.floor(originalText.length * progress);
+
+          element.innerText = originalText
+            .split("")
+            .map((char, index) => {
+              // If index is before the reveal point, show original char
+              if (index < revealIndex) {
+                return char;
+              }
+              // Keep spaces clean to maintain word structure
+              if (char === " ") {
+                return " ";
+              }
+              // Otherwise show random mosaic char
+              return glitchChars[
+                Math.floor(Math.random() * glitchChars.length)
+              ];
+            })
+            .join("");
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            // Ensure final state is clean
+            element.innerText = originalText;
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
       window.addEventListener("DOMContentLoaded", async () => {
+        // --- TRIGGER GLITCH EFFECT ---
+        const titleElement = document.querySelector(".maurice-lebrun");
+        const headlineElement = document.querySelector(".headline");
+
+        // Start effects immediately
+        runGlitchEffect(titleElement, 1000);
+        runGlitchEffect(headlineElement, 1200); // Slight offset for headline
+
+        // --- EXISTING CODE ---
         const response = await fetch("./assets/projects.json");
         const wordToClass = await response.json();
 
@@ -569,81 +610,6 @@
             lightbox.classList.remove("visible");
           }
         });
-      });
-    </script>
-    <script>
-      function glitchText(targetSelector, duration = 700) {
-        const el = document.querySelector(targetSelector);
-        const rect = el.getBoundingClientRect();
-
-        const overlay = document.createElement("div");
-        overlay.style.position = "absolute";
-        overlay.style.top = 0;
-        overlay.style.left = 0;
-        overlay.style.width = rect.width + "px";
-        overlay.style.height = rect.height + "px";
-        overlay.style.pointerEvents = "none";
-        overlay.style.overflow = "hidden";
-
-        el.style.position = "relative";
-        el.style.color = "transparent";
-        el.appendChild(overlay);
-
-        function spawnRects() {
-          overlay.innerHTML = "";
-          const rectCount = 2;
-
-          for (let i = 0; i < rectCount; i++) {
-            const r = document.createElement("div");
-            const w = 5 + Math.random() * 300;
-            const h = 5 + Math.random() * 50;
-            const x = Math.random() * (rect.width - w);
-            const y = Math.random() * (rect.height - h);
-
-            r.style.position = "absolute";
-            r.style.left = x + "px";
-            r.style.top = y + "px";
-            r.style.width = w + "px";
-            r.style.height = h + "px";
-            r.style.background = "black";
-            r.style.opacity = Math.random() * 0.9;
-
-            overlay.appendChild(r);
-          }
-        }
-
-        spawnRects();
-        const scramble = setInterval(spawnRects, 80);
-
-        setTimeout(() => {
-          clearInterval(scramble);
-
-          overlay.innerHTML = "";
-
-          const bar = document.createElement("div");
-          bar.style.position = "absolute";
-          bar.style.left = rect.width * 0.05 + "px";
-          bar.style.top = rect.height / 2 - 5 + "px";
-          bar.style.width = rect.width * 0.9 + "px";
-          bar.style.height = "30px";
-          bar.style.background = "black";
-          bar.style.opacity = 1;
-
-          overlay.appendChild(bar);
-
-          setTimeout(() => {
-            overlay.style.opacity = 0;
-
-            setTimeout(() => {
-              el.style.color = "black";
-              overlay.remove();
-            }, 50);
-          }, 20);
-        }, duration);
-      }
-
-      window.addEventListener("DOMContentLoaded", () => {
-        glitchText(".maurice-lebrun > span");
       });
     </script>
   </body>
