@@ -92,6 +92,24 @@
         margin: 0;
       }
 
+      p.description-project {
+        font-family: "Avenir Book";
+      }
+
+      .description-project > a {
+        border: 1px solid black;
+        padding: 0 5px;
+        text-decoration: none;
+        color: black;
+        position: relative;
+        transition: all 0.2s;
+      }
+
+      .description-project > a:hover {
+        color: rgb(103, 100, 100);
+        border: 1px solid rgb(87, 85, 85);
+      }
+
       .caroussel-image {
         display: flex;
         gap: 20px;
@@ -281,10 +299,10 @@
           ><span class="word">Notes</span
           ><span class="word">Confession d'un enfoiré</span>
         </div>
-        <a href="mailto:"
+        <a href="mailto:contact.mauricelebrun@proton.me"
           ><img
             src="./assets/letter.jpg"
-            width="40px"
+            width="30px"
             alt="Image d'une lettre postale"
         /></a>
       </div>
@@ -501,6 +519,7 @@
               currentSelectedWord = word;
 
               const wordData = wordToClass[word.textContent.trim()];
+              descriptionElement.className = "description-project";
               descriptionElement.innerHTML = wordData
                 ? wordData.description
                 : "";

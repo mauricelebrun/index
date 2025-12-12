@@ -50,7 +50,7 @@
     ]
   },
   "Confession d'un enfoiré": {
-    "description": "Description for Confession d'un enfoiré.",
+    "description": "Description for Confession d'un enfoiré. <a href='https://youtube.com' target='_blank'>En savoir plus</a>",
     "images": [
       "./assets/placeholder2.jpg",
       "./assets/placeholder.jpg",
