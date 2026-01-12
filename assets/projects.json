@@ -1,6 +1,6 @@
 {
   "SOMA [NEW]": {
-    "description": "Dans le cadre de l’Été Métropolitain 2025, nous proposons un dispositif immersif unique autour du film «Koyaanisqatsi», film culte réalisé par Godfrey Reggio en 1982. Ce chef-d’œuvre du cinéma expérimental, qui interroge l’impact de la modernité sur l’équilibre naturel de la Terre, résonne aujourd’hui avec une acuité particulière face aux défis écologiques et sociétaux actuels. En transformant cette projection en une expérience sensorielle, nous invitons le public à une réflexion profonde sur la relation entre l’homme, la nature, et la technologie, dans une ambiance captivante et participative.",
+    "description": "Dans le cadre de l’Été Métropolitain 2025, nous avons proposé un dispositif immersif unique autour du film «Koyaanisqatsi», film culte réalisé par Godfrey Reggio en 1982. Ce chef-d’œuvre du cinéma expérimental interroge l’impact de la modernité sur l’équilibre naturel de la Terre. En réécrivant entièrement la bande sonore et en dispositionant le public au centre d'un système de diffusion spatialisé, nous amenons le public à une réflexion profonde sur la relation entre l’homme, la nature, et la technologie, dans une ambiance captivante et immersive.",
     "images": [
       "./assets/placeholder.jpg",
       "./assets/placeholder2.jpg",
@@ -9,8 +9,8 @@
       "./assets/placeholder.jpg"
     ]
   },
-  "Landes de gascognes": {
-    "description": "Description for Landes de gascognes.",
+  "JUSTICE & MECAOCTET [NEW]": {
+    "description": "-MECAOCTET- conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec -JUSTICE- pour imaginer la scénographie de leurs spectacles.",
     "images": [
       "./assets/placeholder2.jpg",
       "./assets/placeholder.jpg",
@@ -19,8 +19,8 @@
       "./assets/placeholder2.jpg"
     ]
   },
-  "Éclairs": {
-    "description": "Description for Éclairs.",
+  "GRAN TURISMO [NEW]": {
+    "description": "-GRAN TURISMO- L'architecture est l'art majeur de concevoir des espaces et de bâtir des construction empiriques ou scientifiques, ainsi que des concepts esthétiques, classiques ou nouveaux, de forme et d'agencement d'espace, en y incluant les aspects sociaux et environnementaux liés à la fonction de l'édifice et à son intégration dans son environnement, quelle que soit cette fonction : habitable, sépulcrale, rituelle, institutionnelle, religieuse, défensive, artisanale, commerciale, scientifique, signalétique, muséale, industrielle, monumentale, décorative, paysagère, voire purement artistique. C'est pourquoi l'architecture est définie comme « une expression de la culture ». Partant de ce postulat, quel est le reflet de notre culture aujourd'hui ? Pour ma part, j'ai une idée assez claire de ce reflet aux alentours des stations touristiques, de mon village natal mais aussi dans le monde. Ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère. Comment l'humain façonne son territoire à l'image de sa société : Le capital.",
     "images": [
       "./assets/placeholder.jpg",
       "./assets/placeholder2.jpg",
@@ -29,8 +29,8 @@
       "./assets/placeholder.jpg"
     ]
   },
-  "Reportages": {
-    "description": "Description for Reportages.",
+  "Photographie": {
+    "description": "Images de mes divers travaux en photographie documentaire et commissionnés.",
     "images": [
       "./assets/placeholder2.jpg",
       "./assets/placeholder.jpg",
@@ -39,8 +39,8 @@
       "./assets/placeholder2.jpg"
     ]
   },
-  "Notes": {
-    "description": "Description for Notes.",
+  "Films": {
+    "description": "Tantôt réalisateur et tantôt chef opérateur. Ma pratique de la photographie m'a naturellement amené à la fabrique d'images animées.",
     "images": [
       "./assets/placeholder.jpg",
       "./assets/placeholder2.jpg",
@@ -49,8 +49,8 @@
       "./assets/placeholder.jpg"
     ]
   },
-  "Confession d'un enfoiré": {
-    "description": "Description for Confession d'un enfoiré. <a href='https://youtube.com' target='_blank'>En savoir plus</a>",
+  "Musique": {
+    "description": "Compositeur de musique de films et soundesigner <a href='https://soundcloud.com/franky-fahrenheit' target='_blank'>En savoir plus</a>",
     "images": [
       "./assets/placeholder2.jpg",
       "./assets/placeholder.jpg",
