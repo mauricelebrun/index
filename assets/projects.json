@@ -52,12 +52,7 @@
   "Musique": {
     "description": "Compositeur de musique de films et soundesigner <a href='https://soundcloud.com/franky-fahrenheit' target='_blank'>En savoir plus</a>",
     "images": [
-      "./assets/img/FRANKY.png",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg"
+      "./assets/img/FRANKY.png"
     ]
   }
 }
