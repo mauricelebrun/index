@@ -1,80 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      .glitch-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: fit-content;
-        height: 100%;
-        display: grid;
-        pointer-events: none;
-        overflow: hidden;
-      }
-
-      .glitch-rect {
-        width: 10px;
-        height: 10px;
-        background: black;
-        opacity: 1;
-        transition: opacity 0.15s ease;
-      }
-
+      /* -----------------------
+         Fonts
+      ------------------------ */
       @font-face {
         font-family: "Avenir Black";
         src: url(assets/Avenir\ Black.ttf);
       }
-
       @font-face {
         font-family: "Avenir Book";
         src: url(assets/Avenir\ Book.ttf);
       }
-
-      @font-face {
-        font-family: "Courier";
-        src: url(assets/Courier.otf);
-      }
-      
       @font-face {
         font-family: "Avenir Heavy";
         src: url(assets/Avenir\ Heavy.ttf);
       }
+      @font-face {
+        font-family: "Courier";
+        src: url(assets/Courier.otf);
+      }
 
+      /* -----------------------
+         Base
+      ------------------------ */
       html,
       body {
         height: 100%;
         margin: 0;
       }
 
+      /* Scale whole site */
+      .site-scale {
+        transform: scale(0.85);
+        transform-origin: top left;
+        width: 117.65%; /* 1 / 0.85 */
+      }
+
       .container {
         width: 60%;
         height: 100%;
-        margin: 0 auto;
+        margin-left: 8%;
+        margin-right: auto;
         margin-top: 50px;
       }
 
       .content {
-        width: 1000px;
+        width: 1200px;
         position: relative;
       }
 
-      .caroussel-container {
-        margin-top: 40px;
-        margin-bottom: 50px;
-        color: #727272;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out,
-          margin-top 0.5s ease-in-out;
-      }
-
-      .caroussel-container.visible {
-        max-height: 500px;
-        opacity: 1;
-      }
-
+      /* -----------------------
+         Header
+      ------------------------ */
       .maurice-lebrun {
         padding-top: 5px;
         font-family: "Avenir Black";
@@ -97,8 +78,75 @@
         margin: 0;
       }
 
+      /* -----------------------
+         Projects panel (fold)
+      ------------------------ */
+      .caroussel-container {
+        margin-top: 40px;
+        margin-bottom: 50px;
+        color: #727272;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 1s ease-in-out, opacity 1s ease-in-out,
+          margin-top 1s ease-in-out;
+      }
+
+      .caroussel-container.visible {
+        max-height: 2000px;
+        opacity: 1;
+      }
+
+      .selected-word-container {
+        margin-bottom: 10px;
+        min-height: 20px;
+        position: relative;
+      }
+
+      .selected-project-title {
+        font-family: "Avenir Book";
+        font-weight: bold;
+        font-style: oblique;
+        margin: 0 0 10px 0;
+        color: black;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .selected-project-title.visible {
+        opacity: 1;
+      }
+
+      /* 2-column layout inside the fold */
+      .project-layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .project-media {
+        flex: 0 0 auto;
+      }
+
+      .project-text {
+        flex: 0 0 420px;
+        max-width: 420px;
+      }
+
+      /* Description: fades in with fold */
       p.description-project {
         font-family: "Courier";
+        max-width: 420px;
+        margin: 12px 0 20px 0;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+      }
+
+      .caroussel-container.visible p.description-project {
+        opacity: 1;
+        transition: opacity 0.6s ease;
       }
 
       .description-project > a {
@@ -106,7 +154,6 @@
         padding: 0 5px;
         text-decoration: none;
         color: black;
-        position: relative;
         transition: all 0.2s;
       }
 
@@ -115,6 +162,9 @@
         border: 1px solid rgb(87, 85, 85);
       }
 
+      /* -----------------------
+         Carousel
+      ------------------------ */
       .caroussel-image {
         display: flex;
         gap: 20px;
@@ -125,19 +175,27 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        margin-top: 21px;
       }
 
       .carousel-viewport {
         overflow: hidden;
-        /* Width of 3 images (150px each) + 2 gaps (5px each) */
-        width: calc(150px * 3 + 5px * 2);
+        width: calc(200px * 3 + 5px * 2);
       }
 
       .images-wrapper {
         display: flex;
         gap: 5px;
-        /* Smooth transition for sliding */
-        transition: transform 0.5s ease-in-out;
+        transition: transform 1s ease-in-out;
+      }
+
+      .images-wrapper img {
+        width: 220px;
+        height: 150px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 2px;
+        cursor: pointer;
       }
 
       .carousel-button {
@@ -159,10 +217,93 @@
         visibility: hidden;
       }
 
-      p.word-description {
-        font-family: "Avenir Book";
-        text-align: left;
-        max-width: 280px;
+      .caroussel-image.is-empty {
+       display: none;
+      }
+
+      /* -----------------------
+         Modules
+      ------------------------ */
+      .project-modules {
+        margin-top: 0;
+        flex-direction: column;
+        gap: 0px;
+        padding-left: 51px;
+        width: 660px;
+      }
+
+      .module-youtube {
+        width: 612px;
+        aspect-ratio: 16 / 9;
+        margin-left: 0px;
+        margin-top: 18px;
+        border: 0;
+        border-radius: 0px;
+        outline: none;
+        box-shadow: none;
+        overflow: hidden;
+      }
+
+      .module-image {
+        width: 35%;
+        height: auto;
+        border-radius: 6px;
+        display: block;
+        margin-left: 0px;
+        margin-top: 18px;
+      }
+
+      .module-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-left: 0px;
+        margin-top: 10px;
+      }
+
+      .module-links a {
+        color: rgba(0, 0, 0, 1);
+        font-family: "Courier";
+        font-style: oblique;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .module-links a:hover {
+        color: rgb(250, 0, 0);
+      }
+
+      .pdf-wrapper {
+        background: white;
+        padding: 8px;
+        border-radius: 6px;
+        overflow: hidden;
+        width: 712px;
+        box-sizing: border-box;
+        margin-left: 0px;
+      }
+
+      .module-pdf {
+        width: 100%;
+        border: none;
+        outline: none;
+        background: white;
+        box-shadow: none;
+        display: block;
+      }
+
+      /* -----------------------
+         Words list
+      ------------------------ */
+      div.all-words {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        max-width: 500px;
+        transition: margin-top 1s ease-in-out;
+      }
+
+      div.all-words.pushed {
+        margin-top: 10px;
       }
 
       span.word {
@@ -170,9 +311,18 @@
         font-weight: bold;
         font-style: oblique;
         cursor: pointer;
-        transition: color 0.2s ease;
+        transition: opacity 0.25s ease, color 0.25s ease;
         position: relative;
         color: #727272;
+      }
+
+      span.word.active {
+        color: black;
+      }
+
+      span.word.hidden {
+        opacity: 0;
+        pointer-events: none; /* hide & disable click */
       }
 
       span.word:not(:last-child):after {
@@ -181,53 +331,17 @@
         font-style: normal;
       }
 
-      span.word.moving {
-        position: fixed;
-        transition: all 0.5s ease-in-out;
-        z-index: 1000;
-      }
-
-      span.word.moving:after,
-      span.word.at-top:after {
-        content: none;
-      }
-
-      span.word.at-top {
-        position: absolute;
-        color: black;
-      }
-
-      span.word-highlight {
-        font-family: "Avenir Book";
-        color: black;
-      }
-
       span.word:hover {
-        font-family: "Avenir Book";
         color: black;
       }
 
-      div.all-words {
-        margin-top: 20px;
-        margin-bottom: 30px;
-        max-width: 400px;
-        transition: margin-top 0.5s ease-in-out;
+      .word.is-highlighted {
+        color: rgba(255, 0, 0, 0.92);
       }
 
-      div.all-words.pushed {
-        margin-top: 10px;
-      }
-
-      .selected-word-placeholder {
-        display: none;
-      }
-
-      .selected-word-container {
-        margin-bottom: 10px;
-        min-height: 20px;
-        position: relative;
-      }
-
+      /* -----------------------
+         Lightbox
+      ------------------------ */
       .lightbox {
         position: fixed;
         top: 0;
@@ -254,6 +368,7 @@
         max-height: 80vh;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         border-radius: 4px;
+        object-fit: contain;
       }
 
       .lightbox-content {
@@ -270,406 +385,522 @@
         color: white;
       }
 
-      .images-wrapper img {
-        cursor: pointer;
+      .lightbox-hint {
+        margin-top: 6px;
+        font-family: "Avenir Book";
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.75);
       }
     </style>
   </head>
+
   <body>
-    <div class="container">
-      <div class="content">
-        <h1 class="maurice-lebrun"><span>MAURICE LEBRUN</span></h1>
-        <p class="headline">
-          <span>ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE</span>
-        </p>
-        <p class="location">Bordeaux - FRANCE</p>
-        <div class="caroussel-container">
-          <div class="selected-word-container"></div>
-          <div class="caroussel-image">
-            <div class="carousel-wrapper">
-              <button id="prevBtn" class="carousel-button">&#9664;</button>
-              <div class="carousel-viewport">
-                <div class="images-wrapper"></div>
-              </div>
-              <button id="nextBtn" class="carousel-button">&#9654;</button>
+    <div class="site-scale">
+      <div class="container">
+        <div class="content">
+          <h1 class="maurice-lebrun"><span>MAURICE LEBRUN</span></h1>
+          <p class="headline">
+            <span>ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE</span>
+          </p>
+          <p class="location">Bordeaux - FRANCE</p>
+
+          <div class="caroussel-container">
+            <div class="selected-word-container">
+              <p class="selected-project-title"></p>
             </div>
-            <p class="word-description"></p>
+
+            <div class="project-layout">
+              <!-- LEFT: media -->
+              <div class="project-media">
+                <div class="caroussel-image">
+                  <div class="carousel-wrapper">
+                    <button id="prevBtn" class="carousel-button">&#9664;</button>
+                    <div class="carousel-viewport">
+                      <div class="images-wrapper"></div>
+                    </div>
+                    <button id="nextBtn" class="carousel-button">&#9654;</button>
+                  </div>
+                </div>
+
+                <div class="project-modules"></div>
+              </div>
+
+              <!-- RIGHT: text -->
+              <div class="project-text">
+                <p class="word-description description-project"></p>
+              </div>
+            </div>
           </div>
+
+          <!-- Projects list -->
+          <div class="all-words">
+            <span class="word is-highlighted">[SOMA]</span
+            ><span class="word is-highlighted">[JUSTICE & MECAOCTET]</span
+            ><span class="word is-highlighted">[GRAN TURISMO]</span>
+            <span class="word">#Photographie</span
+            ><span class="word">#Films</span
+            ><span class="word">#Musique</span
+            ><span class="word">Curriculum Vitae</span>
+          </div>
+
+          <a href="mailto:contact.mauricelebrun@proton.me"
+            ><img
+              src="./assets/letter.jpg"
+              width="30"
+              alt="Image d'une lettre postale"
+          /></a>
         </div>
-        <!-- list des projets -->
-        <div class="all-words">
-          <span class="word">SOMA [NEW]</span
-          ><span class="word">JUSTICE & MECAOCTET [NEW]</span
-          ><span class="word">GRAN TURISMO [NEW]</span>
-          <span class="word">Photographie</span
-          ><span class="word">Films</span
-          ><span class="word">Musique</span>
-        </div>
-        <a href="mailto:contact.mauricelebrun@proton.me"
-          ><img
-            src="./assets/letter.jpg"
-            width="30px"
-            alt="Image d'une lettre postale"
-        /></a>
       </div>
-    </div>
-    <script>
-      window.addEventListener("DOMContentLoaded", async () => {
-        const response = await fetch("./assets/projects.json");
-        const wordToClass = await response.json();
 
-        const words = document.querySelectorAll(".word");
-        const descriptionElement = document.querySelector(".word-description");
-        const carousselContainer = document.querySelector(
-          ".caroussel-container"
-        );
-        const allWordsContainer = document.querySelector(".all-words");
-        const selectedWordContainer = document.querySelector(
-          ".selected-word-container"
-        );
+      <script>
+        window.addEventListener("DOMContentLoaded", async () => {
+          const response = await fetch("./assets/projects.json");
+          const wordToClass = await response.json();
 
-        let carouselVisible = false;
-        let currentSelectedWord = null;
-        let wordOriginalPositions = new Map();
+          const words = document.querySelectorAll(".word");
+          const descriptionElement = document.querySelector(".word-description");
+          const carousselContainer = document.querySelector(".caroussel-container");
+          const allWordsContainer = document.querySelector(".all-words");
+          const selectedTitle = document.querySelector(".selected-project-title");
+          const modulesContainer = document.querySelector(".project-modules");
 
-        // Store original positions of all words
-        words.forEach((word) => {
-          const rect = word.getBoundingClientRect();
-          wordOriginalPositions.set(word, {
-            top: rect.top,
-            left: rect.left,
-          });
-        });
+          const imagesWrapper = document.querySelector(".images-wrapper");
+          const prevBtn = document.getElementById("prevBtn");
+          const nextBtn = document.getElementById("nextBtn");
 
-        const imagesWrapper = document.querySelector(".images-wrapper");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
+          const ITEMS_TO_SHOW = 3;
+          const THUMB_W = 220;
+          const GAP = 5;
+          const SLIDE_WIDTH = THUMB_W + GAP;
+          const OPEN_CLOSE_MS = 1000;
 
-        const ITEMS_TO_SHOW = 3;
-        const IMAGE_WIDTH = 150;
-        const GAP = 5;
-        const SLIDE_WIDTH = IMAGE_WIDTH + GAP;
+          let carouselVisible = false;
+          let currentSelectedWord = null;
 
-        let activeIndex = 0;
-        let currentImages = [];
-        let isTransitioning = false;
+          let activeIndex = 0;
+          let currentImages = [];
+          let isTransitioning = false;
 
-        function updateCarousel(images) {
-          currentImages = images;
-          activeIndex = 0;
-          imagesWrapper.innerHTML = "";
-          imagesWrapper.style.transition = "none"; // Disable transitions during setup
+          let lightboxIndex = 0;
 
-          // Hide buttons if not enough images for a carousel
-          if (currentImages.length <= ITEMS_TO_SHOW) {
-            prevBtn.classList.add("hidden");
-            nextBtn.classList.add("hidden");
-            // Just display the images without cloning
-            images.forEach((src) => {
-              const img = document.createElement("img");
-              img.src = src;
-              img.width = IMAGE_WIDTH;
-              imagesWrapper.appendChild(img);
-            });
-            imagesWrapper.style.transform = "translateX(0px)";
-            return;
+          function closeProject() {
+            if (!carouselVisible) return;
+
+            descriptionElement.innerHTML = "";
+            carousselContainer.classList.remove("visible");
+            allWordsContainer.classList.remove("pushed");
+            selectedTitle.classList.remove("visible");
+
+            if (currentSelectedWord) {
+              currentSelectedWord.classList.remove("hidden", "active");
+            }
+
+            carouselVisible = false;
+            currentSelectedWord = null;
           }
 
-          prevBtn.classList.remove("hidden");
-          nextBtn.classList.remove("hidden");
-
-          // 1. Create clones for infinite loop
-          const clonesStart = images.slice(-ITEMS_TO_SHOW); // Last 3 images
-          const clonesEnd = images.slice(0, ITEMS_TO_SHOW); // First 3 images
-
-          // 2. Populate the wrapper: [clones of end, real images, clones of start]
-          const allSlides = [...clonesStart, ...images, ...clonesEnd];
-
-          allSlides.forEach((src) => {
-            const img = document.createElement("img");
-            img.src = src;
-            img.width = IMAGE_WIDTH;
-            imagesWrapper.appendChild(img);
+          // Title closes the fold
+          selectedTitle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeProject();
           });
 
-          // 3. Set initial position to show the start of the "real" images
-          const initialOffset = -SLIDE_WIDTH * ITEMS_TO_SHOW;
-          imagesWrapper.style.transform = `translateX(${initialOffset}px)`;
-
-          // Use a timeout to re-enable transitions after the initial position is set
-          setTimeout(() => {
-            imagesWrapper.style.transition = "transform 0.5s ease-in-out";
-          }, 50);
-        }
-
-        function moveToNext() {
-          if (isTransitioning) return;
-          isTransitioning = true;
-          activeIndex++;
-          const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-          imagesWrapper.style.transform = `translateX(${offset}px)`;
-        }
-
-        function moveToPrev() {
-          if (isTransitioning) return;
-          isTransitioning = true;
-          activeIndex--;
-          const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-          imagesWrapper.style.transform = `translateX(${offset}px)`;
-        }
-
-        function handleTransitionEnd() {
-          // If we've slid to a clone at the end, jump back to the start of real images
-          if (activeIndex >= currentImages.length) {
-            imagesWrapper.style.transition = "none";
+          function updateCarousel(images) {
+            currentImages = images || [];
             activeIndex = 0;
-            const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-            imagesWrapper.style.transform = `translateX(${offset}px)`;
-            // If we've slid to a clone at the start, jump back to the end of real images
-          } else if (activeIndex < 0) {
+            imagesWrapper.innerHTML = "";
             imagesWrapper.style.transition = "none";
-            activeIndex = currentImages.length - 1;
-            const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-            imagesWrapper.style.transform = `translateX(${offset}px)`;
-          }
 
-          // Re-enable transitions after the jump
-          setTimeout(() => {
-            imagesWrapper.style.transition = "transform 0.5s ease-in-out";
-          }, 50);
+            if (currentImages.length <= ITEMS_TO_SHOW) {
+              prevBtn.classList.add("hidden");
+              nextBtn.classList.add("hidden");
 
-          isTransitioning = false;
-        }
+              currentImages.forEach((src, idx) => {
+                const img = document.createElement("img");
+                img.src = src;
+                img.dataset.index = String(idx);
+                imagesWrapper.appendChild(img);
+              });
 
-        nextBtn.addEventListener("click", moveToNext);
-        prevBtn.addEventListener("click", moveToPrev);
-        imagesWrapper.addEventListener("transitionend", handleTransitionEnd);
-
-        function moveWordToTop(word) {
-          // Get current position of word
-          const startRect = word.getBoundingClientRect();
-
-          // Get target position (top-left of carousel container)
-          const targetRect = selectedWordContainer.getBoundingClientRect();
-
-          // Create placeholder to maintain space in word cloud
-          const placeholder = document.createElement("span");
-          placeholder.className = "selected-word-placeholder";
-          placeholder.textContent = word.textContent;
-          word.parentNode.insertBefore(placeholder, word);
-
-          // Set word to fixed position at its current location
-          word.classList.add("moving");
-          word.style.top = startRect.top + "px";
-          word.style.left = startRect.left + "px";
-
-          // Force reflow
-          word.offsetHeight;
-
-          // Animate to target position
-          word.style.top = targetRect.top + "px";
-          word.style.left = targetRect.left + "px";
-
-          // After animation completes, position it absolutely within container
-          setTimeout(() => {
-            word.classList.remove("moving");
-            word.classList.add("at-top");
-            word.style.top = "";
-            word.style.left = "";
-            selectedWordContainer.appendChild(word);
-          }, 500);
-
-          return placeholder;
-        }
-
-        function removeWord(word, placeholder) {
-          if (!placeholder || !placeholder.parentNode) return;
-
-          // Get current position
-          const startRect = word.getBoundingClientRect();
-
-          // Get target position (where placeholder is)
-          const targetRect = placeholder.getBoundingClientRect();
-
-          // Remove from top container and set to fixed at current position
-          word.classList.remove("at-top");
-          word.classList.add("moving");
-          document.body.appendChild(word);
-
-          // Force reflow
-          word.offsetHeight;
-
-          // Animate back to placeholder position
-          //word.style.top = targetRect.top + "px";
-          //word.style.left = targetRect.left + "px";
-
-          // After animation, put it back in place
-          setTimeout(() => {
-            word.classList.remove("moving");
-            word.style.top = "";
-            word.style.left = "";
-            word.style.color = "#727272";
-            placeholder.parentNode.replaceChild(word, placeholder);
-          }, 500);
-        }
-
-        let currentPlaceholder = null;
-
-        words.forEach((word) => {
-          word.addEventListener("click", () => {
-            if (word === currentSelectedWord) return;
-
-            const openNewProject = () => {
-              // Move new word to top
-              currentPlaceholder = moveWordToTop(word);
-              currentSelectedWord = word;
-
-              const wordData = wordToClass[word.textContent.trim()];
-              descriptionElement.className = "description-project";
-              descriptionElement.innerHTML = wordData
-                ? wordData.description
-                : "";
-              updateCarousel(wordData ? wordData.images : []);
-
-              // Show carousel + push cloud
-              carousselContainer.classList.add("visible");
-              allWordsContainer.classList.add("pushed");
-            };
-
-            // If the carousel is not open yet → just open normally
-            if (!carouselVisible) {
-              carouselVisible = true;
-              openNewProject();
+              imagesWrapper.style.transform = "translateX(0px)";
               return;
             }
 
-            // If it *is* open → close first
-            carousselContainer.classList.remove("visible");
-            allWordsContainer.classList.remove("pushed");
+            prevBtn.classList.remove("hidden");
+            nextBtn.classList.remove("hidden");
 
-            // After close animation finishes:
+            const clonesStart = currentImages.slice(-ITEMS_TO_SHOW);
+            const clonesEnd = currentImages.slice(0, ITEMS_TO_SHOW);
+            const allSlides = [...clonesStart, ...currentImages, ...clonesEnd];
+
+            allSlides.forEach((src, i) => {
+              const img = document.createElement("img");
+              img.src = src;
+
+              const realIndex =
+                (i - ITEMS_TO_SHOW + currentImages.length) % currentImages.length;
+              img.dataset.index = String(realIndex);
+
+              imagesWrapper.appendChild(img);
+            });
+
+            const initialOffset = -SLIDE_WIDTH * ITEMS_TO_SHOW;
+            imagesWrapper.style.transform = `translateX(${initialOffset}px)`;
+
             setTimeout(() => {
-              // Move back previous selected word
-              if (currentSelectedWord && currentPlaceholder) {
-                removeWord(currentSelectedWord, currentPlaceholder);
+              imagesWrapper.style.transition = "transform 1s ease-in-out";
+            }, 50);
+          }
+
+          function moveToNext() {
+            if (isTransitioning) return;
+            if (!currentImages || currentImages.length === 0) return;
+
+            isTransitioning = true;
+            activeIndex++;
+            const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+            imagesWrapper.style.transform = `translateX(${offset}px)`;
+          }
+
+          function moveToPrev() {
+            if (isTransitioning) return;
+            if (!currentImages || currentImages.length === 0) return;
+
+            isTransitioning = true;
+            activeIndex--;
+            const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+            imagesWrapper.style.transform = `translateX(${offset}px)`;
+          }
+
+          function handleTransitionEnd() {
+            if (!currentImages || currentImages.length === 0) {
+              isTransitioning = false;
+              return;
+            }
+
+            if (activeIndex >= currentImages.length) {
+              imagesWrapper.style.transition = "none";
+              activeIndex = 0;
+              const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+              imagesWrapper.style.transform = `translateX(${offset}px)`;
+            } else if (activeIndex < 0) {
+              imagesWrapper.style.transition = "none";
+              activeIndex = currentImages.length - 1;
+              const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+              imagesWrapper.style.transform = `translateX(${offset}px)`;
+            }
+
+            setTimeout(() => {
+              imagesWrapper.style.transition = "transform 1s ease-in-out";
+            }, 50);
+
+            isTransitioning = false;
+          }
+
+          nextBtn.addEventListener("click", moveToNext);
+          prevBtn.addEventListener("click", moveToPrev);
+          imagesWrapper.addEventListener("transitionend", handleTransitionEnd);
+
+          function renderModules(blocks = []) {
+            modulesContainer.innerHTML = "";
+
+            blocks.forEach((block) => {
+              if (!block || !block.type) return;
+
+              if (block.type === "youtube") {
+                const iframe = document.createElement("iframe");
+                iframe.className = "module-youtube";
+                iframe.src = `https://www.youtube-nocookie.com/embed/${block.youtubeId || ""}?controls=0&modestbranding=1&rel=0&iv_load_policy=3`;
+                iframe.title = "YouTube video player";
+                iframe.allow =
+                  "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                iframe.allowFullscreen = true;
+                modulesContainer.appendChild(iframe);
+                return;
               }
 
-              // Now open with new selected word
-              openNewProject();
-            }, 500); // match the CSS transition duration
+              if (block.type === "image") {
+                const img = document.createElement("img");
+                img.className = "module-image";
+                img.src = block.src || "";
+                img.alt = block.alt || "image";
+                modulesContainer.appendChild(img);
+                return;
+              }
+
+              if (block.type === "links") {
+                const wrap = document.createElement("div");
+                wrap.className = "module-links";
+                (block.links || []).forEach((l) => {
+                  const a = document.createElement("a");
+                  a.href = l.url;
+                  a.target = "_blank";
+                  a.rel = "noopener noreferrer";
+                  a.textContent = l.label;
+                  wrap.appendChild(a);
+                });
+                modulesContainer.appendChild(wrap);
+                return;
+              }
+
+              if (block.type === "pdf") {
+                const wrapper = document.createElement("div");
+                wrapper.className = "pdf-wrapper";
+
+                const iframe = document.createElement("iframe");
+                iframe.className = "module-pdf";
+
+                const src = block.src || "";
+                iframe.src = `${src}#toolbar=0&navpanes=0&scrollbar=0`;
+                iframe.loading = "lazy";
+                iframe.height = block.height || 700;
+
+                wrapper.appendChild(iframe);
+                modulesContainer.appendChild(wrapper);
+                return;
+              }
+            });
+          }
+
+          function applyProject(word) {
+            const key = word.textContent.trim();
+            const data = wordToClass[key] || {};
+
+            selectedTitle.textContent = key;
+            descriptionElement.innerHTML = data.description || "";
+
+            const blocks = data.blocks || [];
+            const carouselBlock = blocks.find((b) => b.type === "carousel");
+            const carouselImages = carouselBlock?.images || data.images || [];
+
+            const carouselContainer = document.querySelector(".caroussel-image");
+
+            if (carouselImages.length > 0) {
+            carouselContainer.classList.remove("is-empty");
+            updateCarousel(carouselImages);
+            } else {
+            carouselContainer.classList.add("is-empty");
+            imagesWrapper.innerHTML = "";
+          }
+
+            const otherBlocks =
+              blocks.length > 0 ? blocks.filter((b) => b.type !== "carousel") : [];
+            renderModules(otherBlocks);
+          }
+
+          words.forEach((word) => {
+            word.addEventListener("click", () => {
+              // If closed -> open
+              if (!carouselVisible) {
+                carouselVisible = true;
+                currentSelectedWord = word;
+
+                word.classList.add("active", "hidden");
+                applyProject(word);
+
+                selectedTitle.textContent = word.textContent.trim();
+                requestAnimationFrame(() => selectedTitle.classList.add("visible"));
+
+                carousselContainer.classList.add("visible");
+                allWordsContainer.classList.add("pushed");
+                return;
+              }
+
+              // Switch project: close then open
+              selectedTitle.classList.remove("visible");
+              carousselContainer.classList.remove("visible");
+              allWordsContainer.classList.remove("pushed");
+
+              setTimeout(() => {
+                if (currentSelectedWord) {
+                  currentSelectedWord.classList.remove("hidden", "active");
+                }
+
+                currentSelectedWord = word;
+                word.classList.add("active", "hidden");
+
+                applyProject(word);
+
+                selectedTitle.textContent = word.textContent.trim();
+                requestAnimationFrame(() => selectedTitle.classList.add("visible"));
+
+                carousselContainer.classList.add("visible");
+                allWordsContainer.classList.add("pushed");
+              }, OPEN_CLOSE_MS);
+            });
+          });
+
+          // --- Lightbox (gallery) ---
+          const lightbox = document.createElement("div");
+          lightbox.classList.add("lightbox");
+
+          const lightboxContent = document.createElement("div");
+          lightboxContent.classList.add("lightbox-content");
+
+          const lightboxImg = document.createElement("img");
+          const lightboxLabel = document.createElement("div");
+          lightboxLabel.classList.add("lightbox-label");
+
+          const lightboxHint = document.createElement("div");
+          lightboxHint.classList.add("lightbox-hint");
+          lightboxHint.textContent = "← → pour naviguer (Esc pour fermer)";
+
+          lightboxContent.appendChild(lightboxImg);
+          lightboxContent.appendChild(lightboxLabel);
+          lightboxContent.appendChild(lightboxHint);
+          lightbox.appendChild(lightboxContent);
+          document.body.appendChild(lightbox);
+
+          function showLightboxAt(index) {
+            if (!currentImages || currentImages.length === 0) return;
+
+            lightboxIndex = (index + currentImages.length) % currentImages.length;
+            lightboxImg.src = currentImages[lightboxIndex];
+
+            const projectName = currentSelectedWord
+              ? currentSelectedWord.textContent.trim()
+              : "";
+            lightboxLabel.textContent = `${projectName} — ${
+              lightboxIndex + 1
+            }/${currentImages.length}`;
+
+            lightbox.classList.add("visible");
+          }
+
+          document.addEventListener("click", (e) => {
+            const target = e.target;
+
+            if (target.tagName === "IMG" && target.closest(".images-wrapper")) {
+              if (!currentSelectedWord) return;
+              const idx = Number(target.dataset.index || 0);
+              showLightboxAt(idx);
+              return;
+            }
+
+            if (target === lightbox) {
+              lightbox.classList.remove("visible");
+            }
+          });
+
+          lightboxImg.addEventListener("click", (e) => {
+            if (!lightbox.classList.contains("visible")) return;
+            const x = e.clientX;
+            if (x > window.innerWidth / 2) showLightboxAt(lightboxIndex + 1);
+            else showLightboxAt(lightboxIndex - 1);
+          });
+
+          document.addEventListener("keydown", (e) => {
+            if (!lightbox.classList.contains("visible")) return;
+
+            if (e.key === "Escape") {
+              lightbox.classList.remove("visible");
+            } else if (e.key === "ArrowRight") {
+              showLightboxAt(lightboxIndex + 1);
+            } else if (e.key === "ArrowLeft") {
+              showLightboxAt(lightboxIndex - 1);
+            }
+          });
+
+          let startX = null;
+
+          lightbox.addEventListener(
+            "touchstart",
+            (e) => {
+              if (!lightbox.classList.contains("visible")) return;
+              startX = e.touches[0].clientX;
+            },
+            { passive: true }
+          );
+
+          lightbox.addEventListener("touchend", (e) => {
+            if (startX === null) return;
+            const endX = e.changedTouches[0].clientX;
+            const dx = endX - startX;
+
+            if (Math.abs(dx) > 40) {
+              if (dx < 0) showLightboxAt(lightboxIndex + 1);
+              else showLightboxAt(lightboxIndex - 1);
+            }
+            startX = null;
           });
         });
+      </script>
 
-        const lightbox = document.createElement("div");
-        lightbox.classList.add("lightbox");
+      <script>
+        function glitchText(targetSelector, duration = 700) {
+          const el = document.querySelector(targetSelector);
+          const rect = el.getBoundingClientRect();
 
-        const lightboxContent = document.createElement("div");
-        lightboxContent.classList.add("lightbox-content");
+          const overlay = document.createElement("div");
+          overlay.style.position = "absolute";
+          overlay.style.top = 0;
+          overlay.style.left = 0;
+          overlay.style.width = rect.width + "px";
+          overlay.style.height = rect.height + "px";
+          overlay.style.pointerEvents = "none";
+          overlay.style.overflow = "hidden";
 
-        const lightboxImg = document.createElement("img");
-        const lightboxLabel = document.createElement("div");
-        lightboxLabel.classList.add("lightbox-label");
-        lightboxLabel.textContent = "highlight";
+          el.style.position = "relative";
+          el.style.color = "transparent";
+          el.appendChild(overlay);
 
-        lightboxContent.appendChild(lightboxImg);
-        lightboxContent.appendChild(lightboxLabel);
-        lightbox.appendChild(lightboxContent);
-        document.body.appendChild(lightbox);
+          function spawnRects() {
+            overlay.innerHTML = "";
+            const rectCount = 2;
 
-        document.addEventListener("click", (e) => {
-          const target = e.target;
-          if (target.tagName === "IMG" && target.closest(".images-wrapper")) {
-            if (!currentSelectedWord) return;
+            for (let i = 0; i < rectCount; i++) {
+              const r = document.createElement("div");
+              const w = 5 + Math.random() * 300;
+              const h = 5 + Math.random() * 50;
+              const x = Math.random() * (rect.width - w);
+              const y = Math.random() * (rect.height - h);
 
-            lightboxImg.src = target.src;
-            lightboxLabel.textContent = currentSelectedWord.textContent.trim(); // show selected word
-            lightbox.classList.add("visible");
-          } else if (target === lightbox) {
-            lightbox.classList.remove("visible");
+              r.style.position = "absolute";
+              r.style.left = x + "px";
+              r.style.top = y + "px";
+              r.style.width = w + "px";
+              r.style.height = h + "px";
+              r.style.background = "black";
+              r.style.opacity = Math.random() * 0.9;
+
+              overlay.appendChild(r);
+            }
           }
-        });
 
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && lightbox.classList.contains("visible")) {
-            lightbox.classList.remove("visible");
-          }
-        });
-      });
-    </script>
-    <script>
-      function glitchText(targetSelector, duration = 700) {
-        const el = document.querySelector(targetSelector);
-        const rect = el.getBoundingClientRect();
-
-        const overlay = document.createElement("div");
-        overlay.style.position = "absolute";
-        overlay.style.top = 0;
-        overlay.style.left = 0;
-        overlay.style.width = rect.width + "px";
-        overlay.style.height = rect.height + "px";
-        overlay.style.pointerEvents = "none";
-        overlay.style.overflow = "hidden";
-
-        el.style.position = "relative";
-        el.style.color = "transparent";
-        el.appendChild(overlay);
-
-        function spawnRects() {
-          overlay.innerHTML = "";
-          const rectCount = 2;
-
-          for (let i = 0; i < rectCount; i++) {
-            const r = document.createElement("div");
-            const w = 5 + Math.random() * 300;
-            const h = 5 + Math.random() * 50;
-            const x = Math.random() * (rect.width - w);
-            const y = Math.random() * (rect.height - h);
-
-            r.style.position = "absolute";
-            r.style.left = x + "px";
-            r.style.top = y + "px";
-            r.style.width = w + "px";
-            r.style.height = h + "px";
-            r.style.background = "black";
-            r.style.opacity = Math.random() * 0.9;
-
-            overlay.appendChild(r);
-          }
-        }
-
-        spawnRects();
-        const scramble = setInterval(spawnRects, 80);
-
-        setTimeout(() => {
-          clearInterval(scramble);
-
-          overlay.innerHTML = "";
-
-          const bar = document.createElement("div");
-          bar.style.position = "absolute";
-          bar.style.left = rect.width * 0.05 + "px";
-          bar.style.top = rect.height / 2 - 5 + "px";
-          bar.style.width = rect.width * 0.9 + "px";
-          bar.style.height = "30px";
-          bar.style.background = "black";
-          bar.style.opacity = 1;
-
-          overlay.appendChild(bar);
+          spawnRects();
+          const scramble = setInterval(spawnRects, 80);
 
           setTimeout(() => {
-            overlay.style.opacity = 0;
+            clearInterval(scramble);
+
+            overlay.innerHTML = "";
+
+            const bar = document.createElement("div");
+            bar.style.position = "absolute";
+            bar.style.left = rect.width * 0.05 + "px";
+            bar.style.top = rect.height / 2 - 5 + "px";
+            bar.style.width = rect.width * 0.9 + "px";
+            bar.style.height = "30px";
+            bar.style.background = "black";
+            bar.style.opacity = 1;
+
+            overlay.appendChild(bar);
 
             setTimeout(() => {
-              el.style.color = "black";
-              overlay.remove();
-            }, 50);
-          }, 20);
-        }, duration);
-      }
+              overlay.style.opacity = 0;
 
-      window.addEventListener("DOMContentLoaded", () => {
-        glitchText(".maurice-lebrun > span");
-      });
-    </script>
+              setTimeout(() => {
+                el.style.color = "black";
+                overlay.remove();
+              }, 50);
+            }, 20);
+          }, duration);
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+          glitchText(".maurice-lebrun > span");
+        });
+      </script>
+    </div>
   </body>
 </html>
