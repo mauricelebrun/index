@@ -1,26 +1,46 @@
 {
-  "SOMA [NEW]": {
+  "[SOMA]": {
     "description": "Dans le cadre de l’Été Métropolitain 2025, nous avons proposé un dispositif immersif unique autour du film «Koyaanisqatsi», film culte réalisé par Godfrey Reggio en 1982. Ce chef-d’œuvre du cinéma expérimental interroge l’impact de la modernité sur l’équilibre naturel de la Terre. En réécrivant entièrement la bande sonore et en dispositionant le public au centre d'un système de diffusion spatialisé, nous amenons le public à une réflexion profonde sur la relation entre l’homme, la nature, et la technologie, dans une ambiance captivante et immersive.",
-    "images": [
-      "./assets/img/koyaa01.png",
-      "./assets/img/koyaa02.png",
-      "./assets/img/koyaa03.png",
-      "./assets/img/soma01.jpg",
-      "./assets/img/soma02.jpg"
+    "blocks": [
+      {
+        "type": "carousel",
+        "images": ["./assets/img/soma01.jpg",
+                  "./assets/img/soma02.jpg",
+                  "./assets/img/koyaa01.png",
+                  "./assets/img/koyaa02.png",
+                  "./assets/img/koyaa03.png"]
+      },
+      {
+        "type": "youtube",
+        "youtubeId": "bvZaH6OdNrw"
+      },
+      {
+        "type": "links",
+        "links": [
+          { "label": "./files", "url": "https://etemetropolitain.bordeaux-metropole.fr/wp-content/uploads/SOMA-Kloudbox.pdf" }
+        ]
+      }
     ]
   },
-  "JUSTICE & MECAOCTET [NEW]": {
+  "[JUSTICE & MECAOCTET]": {
     "description": "-MECAOCTET- conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec -JUSTICE- pour imaginer la scénographie de leurs spectacles.",
-    "images": [
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg"
+    "blocks": [
+      {
+        "type": "carousel",
+        "images": ["./assets/img/soma01.jpg",
+                  "./assets/img/soma02.jpg",
+                  "./assets/img/koyaa01.png",
+                  "./assets/img/koyaa02.png",
+                  "./assets/img/koyaa03.png"]
+      },
+      {
+        "type": "youtube",
+        "youtubeId": "yJeHnI4Auew"
+      }
     ]
   },
-  "GRAN TURISMO [NEW]": {
-    "description": "-GRAN TURISMO- L'architecture est l'art majeur de concevoir des espaces et de bâtir des construction empiriques ou scientifiques, ainsi que des concepts esthétiques, classiques ou nouveaux, de forme et d'agencement d'espace, en y incluant les aspects sociaux et environnementaux liés à la fonction de l'édifice et à son intégration dans son environnement, quelle que soit cette fonction : habitable, sépulcrale, rituelle, institutionnelle, religieuse, défensive, artisanale, commerciale, scientifique, signalétique, muséale, industrielle, monumentale, décorative, paysagère, voire purement artistique. C'est pourquoi l'architecture est définie comme « une expression de la culture ». Partant de ce postulat, quel est le reflet de notre culture aujourd'hui ? Pour ma part, j'ai une idée assez claire de ce reflet aux alentours des stations touristiques, de mon village natal mais aussi dans le monde. Ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère. Comment l'humain façonne son territoire à l'image de sa société : Le capital.",
+  "[GRAN TURISMO]": {
+    "description": "-GRAN TURISMO- <br><br>L'architecture est l'art majeur de concevoir des espaces et de bâtir des construction empiriques ou scientifiques, ainsi que des concepts esthétiques, classiques ou nouveaux, de forme et d'agencement d'espace, en y incluant les aspects sociaux et environnementaux liés à la fonction de l'édifice et à son intégration dans son environnement, quelle que soit cette fonction : habitable, sépulcrale, rituelle, institutionnelle, religieuse, défensive, artisanale, commerciale, scientifique, signalétique, muséale, industrielle, monumentale, décorative, paysagère, voire purement artistique. C'est pourquoi l'architecture est définie comme « une expression de la culture ». Partant de ce postulat, quel est le reflet de notre culture aujourd'hui ? Pour ma part, j'ai une idée assez claire de ce reflet aux alentours des stations touristiques, de mon village natal mais aussi dans le monde. Ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère. Comment l'humain façonne son territoire à l'image de sa société : Le capital.",
     "images": [
       "./assets/placeholder.jpg",
       "./assets/placeholder2.jpg",
@@ -29,7 +49,7 @@
       "./assets/placeholder.jpg"
     ]
   },
-  "Photographie": {
+  "#Photographie": {
     "description": "Images de mes divers travaux en photographie documentaire et commissionnés.",
     "images": [
       "./assets/placeholder2.jpg",
@@ -39,20 +59,52 @@
       "./assets/placeholder2.jpg"
     ]
   },
-  "Films": {
+  "#Films": {
     "description": "Tantôt réalisateur et tantôt chef opérateur. Ma pratique de la photographie m'a naturellement amené à la fabrique d'images animées.",
-    "images": [
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg"
+    "blocks": [
+      {
+        "type": "youtube",
+        "youtubeId": "2OCMMWx7vNg"
+      }
     ]
   },
-  "Musique": {
-    "description": "Compositeur de musique de films et soundesigner <a href='https://soundcloud.com/franky-fahrenheit' target='_blank'>En savoir plus</a>",
-    "images": [
-      "./assets/img/FRANKY.png"
+  "#Musique": {
+    "description": "Compositeur de musique de films et sound designer.",
+    "blocks": [
+      {
+        "type": "youtube",
+        "youtubeId": "f3E6dffCHIE"
+      },
+      {
+        "type": "image",
+        "src": "./assets/img/FRANKY.png",
+        "alt": "Franky sur scène"
+      },  
+      {
+        "type": "links",
+        "links": [
+          { "label": "SoundCloud", "url": "https://soundcloud.com/franky-fahrenheit" }
+        ]
+      }
     ]
-  }
+  },
+    "Curriculum Vitae": {
+    "blocks": [
+      {
+        "type": "pdf",
+        "src": "./assets/pdf/cv2025.pdf",
+        "height": 700
+      },
+      {
+      "type": "links",
+      "links": [
+        {
+          "label": "./file",
+          "url": "./assets/pdf/cv2025.pdf",
+          "download": true
+        }
+      ]
+    }
+  ]
+}
 }
