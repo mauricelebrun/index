@@ -4,11 +4,12 @@
     "blocks": [
       {
         "type": "carousel",
-        "images": ["./assets/img/soma01.jpg",
-                  "./assets/img/soma02.jpg",
-                  "./assets/img/koyaa01.png",
-                  "./assets/img/koyaa02.png",
-                  "./assets/img/koyaa03.png"]
+        "images": ["./assets/img/soma/soma01.jpg",
+                  "./assets/img/soma/soma02.jpg",
+                  "./assets/img/soma/soma03.jpeg",
+                  "./assets/img/soma/koyaa01.png",
+                  "./assets/img/soma/koyaa02.png",
+                  "./assets/img/soma/koyaa03.png"]
       },
       {
         "type": "youtube",
@@ -23,15 +24,20 @@
     ]
   },
   "[JUSTICE & MECAOCTET]": {
-    "description": "-MECAOCTET- conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec -JUSTICE- pour imaginer la scénographie de leurs spectacles.",
+    "description": "-MECAOCTET- conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec -JUSTICE- pour imaginer la scénographie de leurs spectacles.<br> J'ai suivi leur équipe sur la dernière tournée -HYPERDRAMA-.<br><br>#film",
     "blocks": [
       {
         "type": "carousel",
-        "images": ["./assets/img/soma01.jpg",
-                  "./assets/img/soma02.jpg",
-                  "./assets/img/koyaa01.png",
-                  "./assets/img/koyaa02.png",
-                  "./assets/img/koyaa03.png"]
+        "images": ["./assets/img/justice/justice03.jpg",
+                  "./assets/img/justice/justice04.jpg",
+                  "./assets/img/justice/justice09.jpg",
+                  "./assets/img/justice/justice11.jpg",
+                  "./assets/img/justice/justice13.jpg",
+                  "./assets/img/justice/justice15.jpg",
+                  "./assets/img/justice/justice17.jpg",
+                  "./assets/img/justice/justice21.jpg",
+                  "./assets/img/justice/justice24.jpg",
+                  "./assets/img/justice/justice25.jpg"]
       },
       {
         "type": "youtube",
@@ -41,24 +47,87 @@
   },
   "[GRAN TURISMO]": {
     "description": "-GRAN TURISMO- <br><br>L'architecture est l'art majeur de concevoir des espaces et de bâtir des construction empiriques ou scientifiques, ainsi que des concepts esthétiques, classiques ou nouveaux, de forme et d'agencement d'espace, en y incluant les aspects sociaux et environnementaux liés à la fonction de l'édifice et à son intégration dans son environnement, quelle que soit cette fonction : habitable, sépulcrale, rituelle, institutionnelle, religieuse, défensive, artisanale, commerciale, scientifique, signalétique, muséale, industrielle, monumentale, décorative, paysagère, voire purement artistique. C'est pourquoi l'architecture est définie comme « une expression de la culture ». Partant de ce postulat, quel est le reflet de notre culture aujourd'hui ? Pour ma part, j'ai une idée assez claire de ce reflet aux alentours des stations touristiques, de mon village natal mais aussi dans le monde. Ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère. Comment l'humain façonne son territoire à l'image de sa société : Le capital.",
-    "images": [
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg"
-    ]
-  },
+    "blocks": [
+    {
+        "type": "carousel",
+        "images": ["./assets/img/turismo/02.jpg",
+                  "./assets/img/turismo/03.jpg",
+                  "./assets/img/turismo/04.jpg",
+                  "./assets/img/turismo/05.jpg",
+                  "./assets/img/turismo/06.jpg",
+                  "./assets/img/turismo/07.jpg",
+                  "./assets/img/turismo/08.jpg",
+                  "./assets/img/turismo/09.jpg",
+                  "./assets/img/turismo/10.jpg",
+                  "./assets/img/turismo/11.jpg"]
+    },
+    {
+        "type": "pdf",
+        "src": "./assets/pdf/GT.pdf",
+        "height": 866
+    },
+    {
+      "type": "links",
+      "links": [
+        {
+          "label": "./file",
+          "url": "./assets/pdf/GT.pdf",
+          "download": true
+        }
+      ]
+    }
+  ]
+},
   "#Photographie": {
     "description": "Images de mes divers travaux en photographie documentaire et commissionnés.",
-    "images": [
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg",
-      "./assets/placeholder.jpg",
-      "./assets/placeholder2.jpg"
-    ]
-  },
+    "blocks": [
+      {
+      "type": "grid",
+      "images": [
+        "./assets/img/photographie/01.jpg",
+        "./assets/img/photographie/02.jpg",
+        "./assets/img/photographie/03.jpg",
+        "./assets/img/photographie/04.jpg",
+        "./assets/img/photographie/05.jpg",
+        "./assets/img/photographie/06.jpg",
+        "./assets/img/photographie/07.jpg",
+        "./assets/img/photographie/08.jpg",
+        "./assets/img/photographie/09.jpg",
+        "./assets/img/photographie/10.jpg",
+        "./assets/img/photographie/11.jpg",
+        "./assets/img/photographie/12.jpg",
+        "./assets/img/photographie/13.jpg",
+        "./assets/img/photographie/14.jpg",
+        "./assets/img/photographie/15.jpg",
+        "./assets/img/photographie/16.jpg",
+        "./assets/img/photographie/17.jpg",
+        "./assets/img/photographie/18.jpg",
+        "./assets/img/photographie/19.jpg",
+        "./assets/img/photographie/20.jpg",
+        "./assets/img/photographie/21.jpg",
+        "./assets/img/photographie/22.jpg",
+        "./assets/img/photographie/23.jpg",
+        "./assets/img/photographie/24.jpg",
+        "./assets/img/photographie/25.jpg",
+        "./assets/img/photographie/26.jpg",
+        "./assets/img/photographie/27.jpg",
+        "./assets/img/photographie/28.jpg",
+        "./assets/img/photographie/29.jpg",
+        "./assets/img/photographie/30.jpg",
+        "./assets/img/photographie/31.jpg",
+        "./assets/img/photographie/32.jpg",
+        "./assets/img/photographie/33.jpg",
+        "./assets/img/photographie/34.jpg",
+        "./assets/img/photographie/35.jpg",
+        "./assets/img/photographie/36.jpg",
+        "./assets/img/photographie/37.jpg",
+        "./assets/img/photographie/38.jpg",
+        "./assets/img/photographie/39.jpg",
+        "./assets/img/photographie/40.jpg"
+      ]
+    }
+  ]
+},   
   "#Films": {
     "description": "Tantôt réalisateur et tantôt chef opérateur. Ma pratique de la photographie m'a naturellement amené à la fabrique d'images animées.",
     "blocks": [
@@ -93,7 +162,7 @@
       {
         "type": "pdf",
         "src": "./assets/pdf/cv2025.pdf",
-        "height": 700
+        "height": 980
       },
       {
       "type": "links",
