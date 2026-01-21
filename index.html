@@ -82,17 +82,24 @@
          Projects panel (fold)
       ------------------------ */
       .caroussel-container {
-        margin-top: 40px;
-        margin-bottom: 50px;
+        /* quand c'est fermé : pas d'espace réservé */
+        margin-top: 0;
+        margin-bottom: 0;
+
         color: #727272;
         max-height: 0;
         overflow: hidden;
         opacity: 0;
+
         transition: max-height 1s ease-in-out, opacity 1s ease-in-out,
-          margin-top 1s ease-in-out;
+          margin-top 1s ease-in-out, margin-bottom 1s ease-in-out;
       }
 
       .caroussel-container.visible {
+        /* quand c'est ouvert : on remet l'air */
+        margin-top: 40px;
+        margin-bottom: 50px;
+
         max-height: 2000px;
         opacity: 1;
       }
@@ -117,6 +124,7 @@
 
       .selected-project-title.visible {
         opacity: 1;
+        color: red;
       }
 
       /* 2-column layout inside the fold */
@@ -275,12 +283,13 @@
 
       .pdf-wrapper {
         background: white;
-        padding: 8px;
+        padding: 0px;
         border-radius: 6px;
         overflow: hidden;
-        width: 712px;
+        width: 612px;
         box-sizing: border-box;
         margin-left: 0px;
+        margin-top: 8px;
       }
 
       .module-pdf {
@@ -292,13 +301,30 @@
         display: block;
       }
 
+      .module-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* 4 colonnes */
+        gap: 6px;
+        margin-top: 18px;
+      }
+
+      .module-grid-thumb {
+        width: 100%;
+        aspect-ratio: 1 / 1;     /* ✅ carré */
+        object-fit: cover;       /* ✅ crop propre */
+        display: block;
+        cursor: pointer;
+        border-radius: 2px;
+      }
+
+
       /* -----------------------
          Words list
       ------------------------ */
       div.all-words {
         margin-top: 20px;
         margin-bottom: 30px;
-        max-width: 500px;
+        width: 500px;
         transition: margin-top 1s ease-in-out;
       }
 
@@ -307,11 +333,11 @@
       }
 
       span.word {
-        font-family: "Avenir Book";
+        font-family: "Avenir book";
         font-weight: bold;
         font-style: oblique;
         cursor: pointer;
-        transition: opacity 0.25s ease, color 0.25s ease;
+        transition: opacity 0.6s ease, color 0.6s ease;
         position: relative;
         color: #727272;
       }
@@ -391,10 +417,153 @@
         font-size: 14px;
         color: rgba(255, 255, 255, 0.75);
       }
+
+      /* Overlay rotation (hidden by default) */
+      .rotate-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: black;
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .rotate-card {
+        color: white;
+        font-family: "Avenir Book";
+        text-align: center;
+        max-width: 320px;
+      }
+
+      .rotate-video {
+        /*width: 120px;*/
+        height: auto;
+        margin-bottom: 16px;
+        opacity: 0.9;
+      }
+
+      .rotate-title {
+        font-family: "Avenir Black";
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+
+      .rotate-subtitle {
+        font-size: 14px;
+        opacity: 0.75;
+      }
+
+      /* Mobile/tablette tactile : scale */
+      @media (max-width: 900px) and (hover: none) and (pointer: coarse) {
+        .site-scale {
+          transform: scale(0.72);
+          transform-origin: top left;
+          width: 138.9%; /* 1 / 0.72 */
+        }
+      }
+
+      /* Mobile/tablette tactile en portrait : overlay "tourne l'écran" */
+      @media (max-width: 900px) and (hover: none) and (pointer: coarse) and (orientation: portrait) {
+        .rotate-overlay {
+          display: flex;
+        }
+      }
+
+    .mail-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mail-icon {
+      display: inline-block;
+    }
+
+    .mail-text {
+      font-family: "Avenir Book";
+      font-size: 14px;
+      color: black;
+      opacity: 0.8;
+      cursor: default; /* 🔑 pas de main */
+      user-select: none;
+    }
+
+    .contact-block {
+      margin-top: 20px;
+    }
+
+    .legend {
+      margin-top: 30px;
+      font-family: "Avenir Book";
+      font-style: none;
+      font-size: auto;
+      color: #727272;
+    }
+
+    .legend .tag {
+      color: red;
+      font-family: "Avenir Book";
+      font-weight: bold;
+    }
+
+    /* Diaporama en bas */
+    .random-slideshow-container {
+      margin-top: 50px;
+      width: 600px;              /* ajuste si tu veux */
+    }
+
+    .random-slideshow-frame {
+      width: 100%;
+      height: 300px;             /* hauteur du cadre */
+      overflow: hidden;
+      position: relative;
+      background: #fff;
+    }
+
+    .random-slideshow-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;         /* ✅ crop propre */
+      object-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      display: block;
+    }
+
+    .random-slideshow-caption {
+      margin-top: 8px;
+      font-family: "Avenir Book";
+      font-size: 12px;
+      color: #727272;
+      letter-spacing: 0.3px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .random-slideshow-frame {
+       cursor: pointer;
+    }
+
     </style>
   </head>
 
   <body>
+    <div class="rotate-overlay">
+    <div class="rotate-card">
+      <video
+        class="rotate-video"
+        src="./assets/rotatephone2.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+      ></video>
+      <div class="rotate-title">Rotate your screen</div>
+      <div class="rotate-subtitle">This website is designed for landscape</div>
+    </div>
+  </div>
     <div class="site-scale">
       <div class="container">
         <div class="content">
@@ -443,12 +612,27 @@
             ><span class="word">Curriculum Vitae</span>
           </div>
 
-          <a href="mailto:contact.mauricelebrun@proton.me"
-            ><img
+          <div class="contact-block">
+        <div class="mail-row">
+          <a href="mailto:contact.mauricelebrun@proton.me" class="mail-icon">
+            <img
               src="./assets/letter.jpg"
               width="30"
-              alt="Image d'une lettre postale"
-          /></a>
+              alt="Envoyer un mail"
+            />
+          </a>
+          <span class="mail-text">Contact</span>
+        </div>
+          <p class="legend">
+           <span class="tag">[...]</span> = Projets
+            </p>
+          </div>
+          <!-- Diaporama -->
+          <div class="random-slideshow-container">
+            <div class="random-slideshow-frame">
+              <img class="random-slideshow-image" src="" alt="Image aléatoire" />
+          </div>
+          <div class="random-slideshow-caption"></div>
         </div>
       </div>
 
@@ -480,10 +664,13 @@
           let activeIndex = 0;
           let currentImages = [];
           let isTransitioning = false;
+          let carouselTimer = null;
+          const CAROUSEL_AUTOPLAY_MS = 5000;
 
           let lightboxIndex = 0;
 
           function closeProject() {
+            stopCarouselAutoplay();
             if (!carouselVisible) return;
 
             descriptionElement.innerHTML = "";
@@ -570,6 +757,27 @@
             activeIndex--;
             const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
             imagesWrapper.style.transform = `translateX(${offset}px)`;
+          }
+
+          function stopCarouselAutoplay() {
+            if (carouselTimer) {
+            clearInterval(carouselTimer);
+            carouselTimer = null;
+          }
+        }
+
+          function startCarouselAutoplay() {
+            stopCarouselAutoplay();
+
+          // pas d'autoplay si pas assez d'images
+            if (!currentImages || currentImages.length <= ITEMS_TO_SHOW) return;
+
+            carouselTimer = setInterval(() => {
+            if (!carouselVisible) return;
+            if (isTransitioning) return;
+
+            moveToNext();
+            }, CAROUSEL_AUTOPLAY_MS);
           }
 
           function handleTransitionEnd() {
@@ -659,8 +867,38 @@
                 modulesContainer.appendChild(wrapper);
                 return;
               }
+
+              if (block.type === "grid" && Array.isArray(block.images)) {
+                const grid = document.createElement("div");
+                grid.className = "module-grid";
+
+                block.images.forEach((src, idx) => {
+                const img = document.createElement("img");
+                img.className = "module-grid-thumb";
+                img.src = src;
+                img.alt = `thumb-${idx}`;
+                img.dataset.index = String(idx);
+
+                img.addEventListener("click", (e) => {
+                e.stopPropagation();
+
+              // ✅ IMPORTANT : on définit la "galerie" courante pour la lightbox
+                currentImages = block.images;
+                lightboxIndex = idx;
+                showLightboxAt(idx);
+
+              // si tu as autoplay carousel :
+                if (typeof stopCarouselAutoplay === "function") stopCarouselAutoplay();
+              });
+
+              grid.appendChild(img);
             });
-          }
+
+              modulesContainer.appendChild(grid);
+              return;
+            }
+          });
+        }
 
           function applyProject(word) {
             const key = word.textContent.trim();
@@ -697,6 +935,7 @@
 
                 word.classList.add("active", "hidden");
                 applyProject(word);
+                startCarouselAutoplay();
 
                 selectedTitle.textContent = word.textContent.trim();
                 requestAnimationFrame(() => selectedTitle.classList.add("visible"));
@@ -720,6 +959,7 @@
                 word.classList.add("active", "hidden");
 
                 applyProject(word);
+                startCarouselAutoplay();
 
                 selectedTitle.textContent = word.textContent.trim();
                 requestAnimationFrame(() => selectedTitle.classList.add("visible"));
@@ -774,6 +1014,7 @@
               if (!currentSelectedWord) return;
               const idx = Number(target.dataset.index || 0);
               showLightboxAt(idx);
+              stopCarouselAutoplay();
               return;
             }
 
@@ -824,6 +1065,8 @@
             startX = null;
           });
         });
+
+        
       </script>
 
       <script>
@@ -901,6 +1144,131 @@
           glitchText(".maurice-lebrun > span");
         });
       </script>
+          <!-- ... ton contenu HTML actuel ... -->
+
+      <script>
+      window.addEventListener("DOMContentLoaded", async () => {
+        const res = await fetch("./assets/projects.json");
+        const projects = await res.json();
+
+        // Liste d'items: { src, project }
+        const items = [];
+
+        function pushUnique(src, project) {
+          if (!src) return;
+          const key = `${project}||${src}`;
+          if (items.some(it => `${it.project}||${it.src}` === key)) return;
+          items.push({ src, project });
+        }
+
+        // Parcourt tous les projets du JSON
+        Object.entries(projects).forEach(([projectName, projectData]) => {
+        // Ancien format: images: [...]
+          if (Array.isArray(projectData.images)) {
+            projectData.images.forEach(src => pushUnique(src, projectName));
+        }
+
+        // Nouveau format: blocks: [...]
+          if (Array.isArray(projectData.blocks)) {
+            projectData.blocks.forEach(block => {
+        // Images de carousel
+          if (block.type === "carousel" && Array.isArray(block.images)) {
+            block.images.forEach(src => pushUnique(src, projectName));
+        }
+        // Images module (type: image)
+          if (block.type === "image" && typeof block.src === "string") {
+            pushUnique(block.src, projectName);
+        }
+      });
+    }
+  });
+
+        if (!items.length) return;
+
+        const imgEl = document.querySelector(".random-slideshow-image");
+        const captionEl = document.querySelector(".random-slideshow-caption");
+
+        let currentIndex = -1;
+
+        function pickRandomIndex() {
+          if (items.length === 1) return 0;
+          let i;
+          do {
+            i = Math.floor(Math.random() * items.length);
+          } while (i === currentIndex);
+          return i;
+        }
+
+        function setSlide(i) {
+        const it = items[i];
+        imgEl.src = it.src;
+        captionEl.textContent = it.project;
+        }
+
+        function nextSlide() {
+        // fade out image + caption
+        imgEl.style.opacity = 0;
+        captionEl.style.opacity = 0;
+
+        setTimeout(() => {
+          currentIndex = pickRandomIndex();
+          setSlide(currentIndex);
+
+        // fade in image + caption
+          requestAnimationFrame(() => {
+            imgEl.style.opacity = 1;
+            captionEl.style.opacity = 1;
+        });
+        }, 900); // <= durée du transition (1s)
+      }
+
+        // init
+        currentIndex = pickRandomIndex();
+        setSlide(currentIndex);
+        imgEl.style.opacity = 1;
+        captionEl.style.opacity = 1;
+
+        setInterval(nextSlide, 7000);
+
+        const slideshowFrame = document.querySelector(".random-slideshow-frame");
+
+function normalize(s) {
+  return (s || "")
+    .toString()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")   // enlève accents
+    .replace(/\[new\]/gi, "")          // enlève [NEW] seulement
+    .replace(/[\[\]#]/g, "")           // enlève [ ] et #
+    .replace(/&/g, " ")                // & -> espace
+    .replace(/[^a-z0-9\s]/gi, " ")     // ponctuation -> espace
+    .replace(/\s+/g, " ")              // espaces multiples
+    .trim()
+    .toLowerCase();
+}
+
+// Map: texte du word normalisé -> élément .word
+const wordMap = new Map(
+  Array.from(document.querySelectorAll(".word")).map((w) => [
+    normalize(w.textContent),
+    w,
+  ])
+);
+
+slideshowFrame.addEventListener("click", () => {
+  if (currentIndex < 0) return;
+
+  const projectName = items[currentIndex].project; // nom exact depuis le JSON
+  const targetWord = wordMap.get(normalize(projectName));
+
+  if (targetWord) {
+    targetWord.click();
+    targetWord.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+});
+
+      });
+    </script>
+
     </div>
   </body>
 </html>
