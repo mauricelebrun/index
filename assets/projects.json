@@ -1,6 +1,6 @@
 {
   "SOMA [Live]": {
-    "description": "Dans le cadre de l’Été Métropolitain 2025, nous avons proposé un dispositif immersif unique autour du film «Koyaanisqatsi», film culte réalisé par Godfrey Reggio en 1982. Ce chef-d’œuvre du cinéma expérimental interroge l’impact de la modernité sur l’équilibre naturel de la Terre. En réécrivant entièrement la bande sonore et en dispositionant le public au centre d'un système de diffusion spatialisé, nous amenons le public à une réflexion profonde sur la relation entre l’homme, la nature, et la technologie, dans une ambiance captivante et immersive.",
+    "description": "- Musique & Cinéma Live -<br><br>Dans le cadre de l’Été Métropolitain 2025 (à BORDEAUX), J'ai travaillé sur un dispositif immersif unique autour du film «Koyaanisqatsi», film culte réalisé par Godfrey Reggio en 1982.<br> En réécrivant entièrement la bande sonore et en dispositionant le public au centre d'un système de diffusion spatialisé, le tout programmé avec MAX/MSP, nous avons modernisé le travail sonore pour appuyer le public à avoir une réflexion profonde sur la relation entre l’homme, la nature, et la technologie.<br><br>#musique #film #MAXMSP",
     "blocks": [
       {
         "type": "carousel",
@@ -24,7 +24,7 @@
     ]
   },
   "BONNES VACANCES AU CHÔMAGE [Série]": {
-    "description": "Darbo était la plus ancienne usine de transformation de bois des Landes. Après avoir été rachetée par divers fonds internationaux, elle a mis la clef sous la porte. Comment les ex-salariés se battent pour obtenir justice et trouver un sens à leurs vies d’après ?",
+    "description": "- Série Documentaire -<br><br>Darbo était la plus ancienne usine de transformation de bois des Landes. Après avoir été rachetée par divers fonds internationaux, elle a mis la clef sous la porte. Comment les ex-salariés se battent pour obtenir justice et trouver un sens à leurs vies d’après ?<br><br>#Documentaire #film",
     "blocks": [
       {
         "type": "carousel",
@@ -67,7 +67,7 @@
     ]
   },
   "JUSTICE & MECAOCTET [Film]": {
-    "description": "-MECAOCTET- conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec -JUSTICE- pour imaginer la scénographie de leurs spectacles.<br> J'ai suivi leur équipe sur la dernière tournée -HYPERDRAMA-.<br><br>#film",
+    "description": "- FILM -<br><br>MECAOCTET conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec JUSTICE pour imaginer la scénographie de leurs spectacles.<br> J'ai suivi leur équipe sur la dernière tournée -HYPERDRAMA-.<br><br>#film",
     "blocks": [
       {
         "type": "carousel",
@@ -89,7 +89,7 @@
     ]
   },
   "GRAN TURISMO [Livre]": {
-    "description": "-GRAN TURISMO- <br><br>L'architecture est l'art majeur de concevoir des espaces et de bâtir des construction empiriques ou scientifiques, ainsi que des concepts esthétiques, classiques ou nouveaux, de forme et d'agencement d'espace, en y incluant les aspects sociaux et environnementaux liés à la fonction de l'édifice et à son intégration dans son environnement, quelle que soit cette fonction : habitable, sépulcrale, rituelle, institutionnelle, religieuse, défensive, artisanale, commerciale, scientifique, signalétique, muséale, industrielle, monumentale, décorative, paysagère, voire purement artistique. C'est pourquoi l'architecture est définie comme « une expression de la culture ». Partant de ce postulat, quel est le reflet de notre culture aujourd'hui ? Pour ma part, j'ai une idée assez claire de ce reflet aux alentours des stations touristiques, de mon village natal mais aussi dans le monde. Ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère. Comment l'humain façonne son territoire à l'image de sa société : Le capital.",
+    "description": "- Livre -<br><br>Après Seuls Sous Les Pins (mon premier livre), ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère.<br>Comment l'humain façonne son territoire à l'image de sa société : Le capital.<br>En collaboration avec Camille Mortelette, géographe et urbaniste, maîtresse de conférences à l’Institut d’Urbanisme et de Géographie Alpine à Grenoble.<br><br>#livre #photographie",
     "blocks": [
     {
         "type": "carousel",
