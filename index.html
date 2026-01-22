@@ -252,6 +252,14 @@
         overflow: hidden;
       }
 
+      .module-caption {
+        margin-top: 6px;
+        font-family: "Avenir Book";
+        font-size: 12px;
+        color: #727272;
+        letter-spacing: 0.2px;
+      }
+
       .module-image {
         width: 35%;
         height: auto;
@@ -324,7 +332,7 @@
       div.all-words {
         margin-top: 20px;
         margin-bottom: 30px;
-        width: 500px;
+        width: 550px;      /* ajuster les titres */
         transition: margin-top 1s ease-in-out;
       }
 
@@ -363,6 +371,21 @@
 
       .word.is-highlighted {
         color: rgba(255, 0, 0, 0.92);
+      }
+
+      .words-projects,
+      .words-meta {
+        white-space: nowrap; /* chaque ligne reste sur une seule ligne */
+      }
+
+      .words-meta {
+        margin-top: 0px;     /* 🔑 la séparation visuelle */
+        color: #999;
+      }
+
+      .words-meta .word {
+        font-weight: normal;
+        font-style: normal;
       }
 
       /* -----------------------
@@ -603,13 +626,17 @@
 
           <!-- Projects list -->
           <div class="all-words">
-            <span class="word is-highlighted">[SOMA]</span
-            ><span class="word is-highlighted">[JUSTICE & MECAOCTET]</span
-            ><span class="word is-highlighted">[GRAN TURISMO]</span>
-            <span class="word">#Photographie</span
-            ><span class="word">#Films</span
-            ><span class="word">#Musique</span
-            ><span class="word">Curriculum Vitae</span>
+            <span class="word is-highlighted">SOMA [Live]</span
+            ><span class="word is-highlighted">JUSTICE & MECAOCTET [Film]</span
+            ><span class="word is-highlighted">GRAN TURISMO [Livre]</span
+            ><span class="word">BONNES VACANCES AU CHÔMAGE [Série]</span>
+          </div>
+
+          <div class="words-meta">
+            <span class="word meta">#Photographie</span>
+            <span class="word">#Films</span>
+            <span class="word">#Musique</span>
+            <span class="word meta">Curriculum Vitae</span>
           </div>
 
           <div class="contact-block">
@@ -624,7 +651,7 @@
           <span class="mail-text">Contact</span>
         </div>
           <p class="legend">
-           <span class="tag">[...]</span> = Projets
+           <span class="tag">[...]</span> = Projets récents
             </p>
           </div>
           <!-- Diaporama -->
@@ -815,15 +842,44 @@
             blocks.forEach((block) => {
               if (!block || !block.type) return;
 
+              /* ---------- YOUTUBE ---------- */
               if (block.type === "youtube") {
                 const iframe = document.createElement("iframe");
                 iframe.className = "module-youtube";
-                iframe.src = `https://www.youtube-nocookie.com/embed/${block.youtubeId || ""}?controls=0&modestbranding=1&rel=0&iv_load_policy=3`;
-                iframe.title = "YouTube video player";
+                iframe.src = `https://www.youtube-nocookie.com/embed/${block.youtubeId}?rel=0&modestbranding=1`;
                 iframe.allow =
                   "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
                 iframe.allowFullscreen = true;
+
                 modulesContainer.appendChild(iframe);
+
+                if (block.caption) {
+                  const cap = document.createElement("div");
+                  cap.className = "module-caption";
+                  cap.textContent = block.caption;
+                  modulesContainer.appendChild(cap);
+                }
+
+                return;
+              }
+
+              /* ---------- VIMEO ---------- */
+              if (block.type === "vimeo") {
+                const iframe = document.createElement("iframe");
+                iframe.className = "module-youtube"; // on réutilise le même sizing
+                iframe.src = `https://player.vimeo.com/video/${block.vimeoId}?title=0&byline=0&portrait=0`;
+                iframe.allow = "autoplay; fullscreen; picture-in-picture";
+                iframe.allowFullscreen = true;
+
+                modulesContainer.appendChild(iframe);
+
+                if (block.caption) {
+                  const cap = document.createElement("div");
+                  cap.className = "module-caption";
+                  cap.textContent = block.caption;
+                  modulesContainer.appendChild(cap);
+                }
+
                 return;
               }
 
