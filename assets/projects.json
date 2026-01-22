@@ -28,12 +28,15 @@
     "blocks": [
       {
         "type": "carousel",
-        "images": ["./assets/img/soma/soma01.jpg",
-                  "./assets/img/soma/soma02.jpg",
-                  "./assets/img/soma/soma03.jpeg",
-                  "./assets/img/soma/koyaa01.png",
-                  "./assets/img/soma/koyaa02.png",
-                  "./assets/img/soma/koyaa03.png"]
+        "images": ["./assets/img/darbo/01.jpg",
+                  "./assets/img/darbo/02.jpg",
+                  "./assets/img/darbo/03.jpg",
+                  "./assets/img/darbo/05.jpg",
+                  "./assets/img/darbo/06.jpg",
+                  "./assets/img/darbo/08.jpg",
+                  "./assets/img/darbo/09.jpg",
+                  "./assets/img/darbo/11.jpg",
+                  "./assets/img/darbo/13.jpg"]
       },
       {
         "type": "vimeo",
