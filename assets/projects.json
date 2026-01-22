@@ -1,5 +1,5 @@
 {
-  "[SOMA]": {
+  "SOMA [Live]": {
     "description": "Dans le cadre de l’Été Métropolitain 2025, nous avons proposé un dispositif immersif unique autour du film «Koyaanisqatsi», film culte réalisé par Godfrey Reggio en 1982. Ce chef-d’œuvre du cinéma expérimental interroge l’impact de la modernité sur l’équilibre naturel de la Terre. En réécrivant entièrement la bande sonore et en dispositionant le public au centre d'un système de diffusion spatialisé, nous amenons le public à une réflexion profonde sur la relation entre l’homme, la nature, et la technologie, dans une ambiance captivante et immersive.",
     "blocks": [
       {
@@ -23,7 +23,47 @@
       }
     ]
   },
-  "[JUSTICE & MECAOCTET]": {
+  "BONNES VACANCES AU CHÔMAGE [Série]": {
+    "description": "Darbo était la plus ancienne usine de transformation de bois des Landes. Après avoir été rachetée par divers fonds internationaux, elle a mis la clef sous la porte. Comment les ex-salariés se battent pour obtenir justice et trouver un sens à leurs vies d’après ?",
+    "blocks": [
+      {
+        "type": "carousel",
+        "images": ["./assets/img/soma/soma01.jpg",
+                  "./assets/img/soma/soma02.jpg",
+                  "./assets/img/soma/soma03.jpeg",
+                  "./assets/img/soma/koyaa01.png",
+                  "./assets/img/soma/koyaa02.png",
+                  "./assets/img/soma/koyaa03.png"]
+      },
+      {
+        "type": "vimeo",
+        "vimeoId": "284316270",
+        "caption": "Épisode 1"
+      },
+      {
+        "type": "vimeo",
+        "vimeoId": "284328000",
+        "caption": "Épisode 2"
+      },
+      {
+        "type": "vimeo",
+        "vimeoId": "284327702",
+        "caption": "Épisode 3"
+      },
+      {
+        "type": "vimeo",
+        "vimeoId": "284328257",
+        "caption": "Épisode 4"
+      },
+      {
+        "type": "links",
+        "links": [
+          { "label": "./files", "url": "https://www.revue-farouest.fr/feuilletons/bonnes-vacances-au-chomage/" }
+        ]
+      }
+    ]
+  },
+  "JUSTICE & MECAOCTET [Film]": {
     "description": "-MECAOCTET- conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec -JUSTICE- pour imaginer la scénographie de leurs spectacles.<br> J'ai suivi leur équipe sur la dernière tournée -HYPERDRAMA-.<br><br>#film",
     "blocks": [
       {
@@ -45,7 +85,7 @@
       }
     ]
   },
-  "[GRAN TURISMO]": {
+  "GRAN TURISMO [Livre]": {
     "description": "-GRAN TURISMO- <br><br>L'architecture est l'art majeur de concevoir des espaces et de bâtir des construction empiriques ou scientifiques, ainsi que des concepts esthétiques, classiques ou nouveaux, de forme et d'agencement d'espace, en y incluant les aspects sociaux et environnementaux liés à la fonction de l'édifice et à son intégration dans son environnement, quelle que soit cette fonction : habitable, sépulcrale, rituelle, institutionnelle, religieuse, défensive, artisanale, commerciale, scientifique, signalétique, muséale, industrielle, monumentale, décorative, paysagère, voire purement artistique. C'est pourquoi l'architecture est définie comme « une expression de la culture ». Partant de ce postulat, quel est le reflet de notre culture aujourd'hui ? Pour ma part, j'ai une idée assez claire de ce reflet aux alentours des stations touristiques, de mon village natal mais aussi dans le monde. Ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère. Comment l'humain façonne son territoire à l'image de sa société : Le capital.",
     "blocks": [
     {
@@ -64,7 +104,7 @@
     {
         "type": "pdf",
         "src": "./assets/pdf/GT.pdf",
-        "height": 866
+        "height": 864
     },
     {
       "type": "links",
@@ -129,11 +169,27 @@
   ]
 },   
   "#Films": {
-    "description": "Tantôt réalisateur et tantôt chef opérateur. Ma pratique de la photographie m'a naturellement amené à la fabrique d'images animées.",
+    "description": "Ma pratique de la photographie m'a naturellement amené à la fabrique d'images animées.<br><br> Touche f du clavier pour passer en plein écran.",
     "blocks": [
       {
         "type": "youtube",
-        "youtubeId": "2OCMMWx7vNg"
+        "youtubeId": "2OCMMWx7vNg",
+        "caption": "Bande démo"
+      },
+      {
+        "type": "youtube",
+        "youtubeId": "3s1U7LcVB88",
+        "caption": "Court Métrage réalisé et mis en musique par Maurice Lebrun"
+      },
+      {
+        "type": "youtube",
+        "youtubeId": "v6x_sdXkfDo",
+        "caption": "Portrait réalisé et mis en musique par Maurice Lebrun"
+      },
+      {
+        "type": "youtube",
+        "youtubeId": "z-KqDgSRQaE",
+        "caption": "Court Métrage de Romain Campet. DOP : Maurice Lebrun"
       }
     ]
   },
@@ -142,7 +198,8 @@
     "blocks": [
       {
         "type": "youtube",
-        "youtubeId": "f3E6dffCHIE"
+        "youtubeId": "f3E6dffCHIE",
+        "caption": "Franky sur scène"
       },
       {
         "type": "image",
@@ -162,7 +219,7 @@
       {
         "type": "pdf",
         "src": "./assets/pdf/cv2025.pdf",
-        "height": 980
+        "height": 864
       },
       {
       "type": "links",
