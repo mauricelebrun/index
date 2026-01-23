@@ -514,6 +514,19 @@
         }
       }
 
+      @media (max-width: 900px) and (hover: none) and (pointer: coarse) and (orientation: portrait) {
+        .rotate-overlay {
+          display: flex;
+        }
+      
+        /* ✅ IMPORTANT : on désactive le scale du site derrière,
+           sinon Android "re-zoome" la page */
+        .site-scale {
+          transform: none !important;
+          width: 100% !important;
+        }
+      }
+
     .mail-row {
       display: inline-flex;
       align-items: center;
