@@ -527,6 +527,21 @@
         }
       }
 
+      /* overlay toujours au-dessus */
+        .rotate-overlay {
+          z-index: 2147483647; /* ultra au-dessus */
+        }
+        
+        /* état piloté par JS */
+        html.touch-portrait .rotate-overlay {
+          display: flex;
+        }
+        
+        html.touch-portrait .site-scale {
+          transform: none !important;
+          width: 100% !important;
+        }
+
     .mail-row {
       display: inline-flex;
       align-items: center;
@@ -1358,6 +1373,23 @@ slideshowFrame.addEventListener("click", () => {
 
       });
     </script>
+        <script>
+  (function () {
+    function updateTouchPortrait() {
+      const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+      const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+
+      document.documentElement.classList.toggle("touch-portrait", isTouch && isPortrait);
+    }
+
+    window.addEventListener("resize", updateTouchPortrait);
+    window.addEventListener("orientationchange", updateTouchPortrait);
+
+    // au chargement + après un petit délai (Android aime bien)
+    updateTouchPortrait();
+    setTimeout(updateTouchPortrait, 150);
+  })();
+</script>
 
     </div>
   </body>
