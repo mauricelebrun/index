@@ -1423,7 +1423,6 @@ slideshowFrame.addEventListener("click", () => {
 
   // listeners robustes (Android/iOS/Brave)
   window.addEventListener("resize", update, { passive: true });
-  window.addEventListener("orientationchange", update, { passive: true });
   window.addEventListener("orientationchange", () => {
   update();
   requestAnimationFrame(update);
