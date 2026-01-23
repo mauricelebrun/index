@@ -506,18 +506,6 @@
           width: 138.9%; /* 1 / 0.72 */
         }
       }
-
-      /* Mobile/tablette tactile en portrait : overlay "tourne l'écran" */
-      @media (max-width: 900px) and (hover: none) and (pointer: coarse) and (orientation: portrait) {
-        .rotate-overlay {
-          display: flex;
-        }
-      }
-
-      @media (max-width: 900px) and (hover: none) and (pointer: coarse) and (orientation: portrait) {
-        .rotate-overlay {
-          display: flex;
-        }
       
         /* ✅ IMPORTANT : on désactive le scale du site derrière,
            sinon Android "re-zoome" la page */
@@ -1372,24 +1360,72 @@ slideshowFrame.addEventListener("click", () => {
 });
 
       });
-    </script>
-        <script>
-  (function () {
-    function updateTouchPortrait() {
-      const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-      const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+    <script>
+(function () {
+  const overlay = document.querySelector(".rotate-overlay");
 
-      document.documentElement.classList.toggle("touch-portrait", isTouch && isPortrait);
+  function isTouchDevice() {
+    return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  }
+
+  function isPortraitNow() {
+    // matchMedia n'est pas fiable partout après rotation -> fallback
+    const mq = window.matchMedia("(orientation: portrait)");
+    if (mq && typeof mq.matches === "boolean") return mq.matches;
+    return window.innerHeight >= window.innerWidth;
+  }
+
+  function resizeOverlayToViewport() {
+    if (!overlay) return;
+
+    const vv = window.visualViewport;
+    const w = vv ? vv.width : window.innerWidth;
+    const h = vv ? vv.height : window.innerHeight;
+
+    // force des dimensions réelles (contourne les bugs vh/zoom)
+    overlay.style.width = w + "px";
+    overlay.style.height = h + "px";
+    overlay.style.left = (vv ? vv.offsetLeft : 0) + "px";
+    overlay.style.top = (vv ? vv.offsetTop : 0) + "px";
+  }
+
+  function update() {
+    const touch = isTouchDevice();
+    const portrait = isPortraitNow();
+
+    const on = touch && portrait;
+    document.documentElement.classList.toggle("touch-portrait", on);
+
+    if (on) {
+      resizeOverlayToViewport();
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      overlay.style.width = "";
+      overlay.style.height = "";
+      overlay.style.left = "";
+      overlay.style.top = "";
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
     }
+  }
 
-    window.addEventListener("resize", updateTouchPortrait);
-    window.addEventListener("orientationchange", updateTouchPortrait);
+  // listeners robustes (Android/iOS/Brave)
+  window.addEventListener("resize", update, { passive: true });
+  window.addEventListener("orientationchange", update, { passive: true });
 
-    // au chargement + après un petit délai (Android aime bien)
-    updateTouchPortrait();
-    setTimeout(updateTouchPortrait, 150);
-  })();
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", update, { passive: true });
+    window.visualViewport.addEventListener("scroll", update, { passive: true });
+  }
+
+  // init + re-checks (certains navigateurs appliquent en retard)
+  update();
+  setTimeout(update, 150);
+  setTimeout(update, 600);
+})();
 </script>
+
 
     </div>
   </body>
