@@ -1159,7 +1159,7 @@ html.touch-landscape .site-scale {
       </script>
 
       <script>
-        function glitchText(targetSelector, duration = 700) {
+        function glitchText(targetSelector, duration = 400) {
           const el = document.querySelector(targetSelector);
           const rect = el.getBoundingClientRect();
 
@@ -1200,7 +1200,7 @@ html.touch-landscape .site-scale {
           }
 
           spawnRects();
-          const scramble = setInterval(spawnRects, 80);
+          const scramble = setInterval(spawnRects, 50);
 
           setTimeout(() => {
             clearInterval(scramble);
@@ -1225,7 +1225,7 @@ html.touch-landscape .site-scale {
                 el.style.color = "black";
                 overlay.remove();
               }, 50);
-            }, 20);
+            }, 90);
           }, duration);
         }
 
