@@ -1161,6 +1161,9 @@ html.touch-landscape .site-scale {
       <script>
         function glitchText(targetSelector, duration = 400) {
           const el = document.querySelector(targetSelector);
+          if (!el) return;
+          if (el.dataset.glitching === "1") return;
+          el.dataset.glitching = "1";
           const rect = el.getBoundingClientRect();
 
           const overlay = document.createElement("div");
@@ -1224,14 +1227,35 @@ html.touch-landscape .site-scale {
               setTimeout(() => {
                 el.style.color = "black";
                 overlay.remove();
+                el.dataset.glitching = "0";
               }, 50);
             }, 90);
           }, duration);
         }
 
         window.addEventListener("DOMContentLoaded", () => {
-          glitchText(".maurice-lebrun > span");
-        });
+        const selector = ".maurice-lebrun > span";
+
+        // 1er glitch au chargement
+        glitchText(selector);
+
+        // re-trigger aléatoire
+        function scheduleRandomGlitch() {
+          // entre 10s et 25s (ajuste si tu veux)
+          const delay = 10000 + Math.random() * 17000;
+          const duration = 50 + Math.random() * 200; // combien de temps ça dure
+
+          setTimeout(() => {
+            if (!document.hidden) {
+              glitchText(selector, duration);
+            }
+            scheduleRandomGlitch();
+          }, delay);
+        }
+
+        scheduleRandomGlitch();
+      });
+
       </script>
           <!-- ... ton contenu HTML actuel ... -->
 
