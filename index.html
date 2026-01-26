@@ -514,6 +514,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      margin-bottom: 30px;
     }
 
     .mail-icon {
@@ -523,18 +524,17 @@
     .mail-text {
       font-family: "Avenir Book";
       font-size: 14px;
-      color: black;
-      opacity: 0.8;
+      color: #727272;
       cursor: default; /* 🔑 pas de main */
       user-select: none;
     }
 
     .contact-block {
-      margin-top: 50px;
+      margin-top: 10px;
     }
 
     .legend {
-      margin-top: 30px;
+      margin-top: 20px;
       font-family: "Avenir Book";
       font-style: none;
       font-size: auto;
@@ -735,10 +735,6 @@
             <span class="word">Curriculum Vitae</span>
           </div>
 
-          <p class="legend">
-           <span class="tag">[...]</span> = Projets récents
-            </p>
-          </div>
           <!-- Diaporama -->
           <div class="random-slideshow-container">
             <div class="random-slideshow-frame">
@@ -746,7 +742,11 @@
           </div>
           <div class="random-slideshow-caption"></div>
         </div>
-        <div class="contact-block">
+        <p class="legend">
+           <span class="tag">[...]</span> Projets récents
+            </p>
+          </div>
+          <div class="contact-block">
         <div class="mail-row">
           <a href="mailto:contact.mauricelebrun@proton.me" class="mail-icon">
             <img
@@ -755,7 +755,7 @@
               alt="Envoyer un mail"
             />
           </a>
-          <span class="mail-text">Mail</span>
+          <span class="mail-text">Contact</span>
         </div>
       </div>
 
