@@ -57,7 +57,7 @@
       /* -----------------------
          Header
       ------------------------ */
-      .maurice-lebrun {
+      .site-title {
         padding-top: 5px;
         font-family: "Avenir Black";
         margin: 0;
@@ -530,7 +530,7 @@
     }
 
     .contact-block {
-      margin-top: 20px;
+      margin-top: 50px;
     }
 
     .legend {
@@ -549,7 +549,7 @@
 
     /* Diaporama en bas */
     .random-slideshow-container {
-      margin-top: 50px;
+      margin-top: 20px;
       width: 600px;              /* ajuste si tu veux */
     }
 
@@ -586,20 +586,63 @@
     }
 
     html.touch-portrait .rotate-overlay {
-  display: flex;
-}
+      display: flex;
+    }
 
-html.touch-portrait .site-scale {
-  transform: none !important;
-  width: 100% !important;
-}
+    html.touch-portrait .site-scale {
+      transform: none !important;
+      width: 100% !important;
+    }
 
-html.touch-landscape .site-scale {
-  transform: scale(0.65) !important;
-  transform-origin: top left !important;
-  width: 153.85% !important; /* 1 / 0.65 */
-}
+    html.touch-landscape .site-scale {
+      transform: scale(0.65) !important;
+      transform-origin: top left !important;
+      width: 153.85% !important; /* 1 / 0.65 */
+    }
 
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --muted: #727272;
+      --accent: #ff0000;
+      --link: #000000;
+      --link-border: #000000;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    /* Titre haut */
+      .maurice-lebrun,
+      .site-title,
+      .maurice-lebrun span,
+      #siteTitleText {
+        color: var(--fg);
+      }
+
+      /* Words */
+      span.word { color: var(--muted); }
+      span.word.active,
+      span.word:hover { color: var(--fg); }
+
+      /* Si tu as des words rouges, mets-les sur l'accent */
+      .word.is-highlighted { color: var(--accent); }
+      .selected-project-title.visible { color: var(--accent); }
+
+      /* Description */
+      p.description-project { color: var(--fg); }
+
+      /* Liens dans la description */
+      .description-project > a {
+        color: var(--link);
+        border-color: var(--link-border);
+      }
+
+      .description-project > a:hover {
+        opacity: 0.8;
+      }
 
     </style>
   </head>
@@ -623,7 +666,7 @@ html.touch-landscape .site-scale {
     <div class="site-scale">
       <div class="container">
         <div class="content">
-          <h1 class="maurice-lebrun"><span>MAURICE LEBRUN</span></h1>
+          <h1 class="site-title"><span id="siteTitleText">MATHIEU STAUB</span></h1>
           <p class="headline">
             <span>ARTS NUMÉRIQUES VISUELS & SONORES / DOCUMENTAIRE</span>
           </p>
@@ -672,17 +715,6 @@ html.touch-landscape .site-scale {
             <span class="word meta">Curriculum Vitae</span>
           </div>
 
-          <div class="contact-block">
-        <div class="mail-row">
-          <a href="mailto:contact.mauricelebrun@proton.me" class="mail-icon">
-            <img
-              src="./assets/letter.jpg"
-              width="30"
-              alt="Envoyer un mail"
-            />
-          </a>
-          <span class="mail-text">Contact</span>
-        </div>
           <p class="legend">
            <span class="tag">[...]</span> = Projets récents
             </p>
@@ -694,10 +726,51 @@ html.touch-landscape .site-scale {
           </div>
           <div class="random-slideshow-caption"></div>
         </div>
+        <div class="contact-block">
+        <div class="mail-row">
+          <a href="mailto:contact.mauricelebrun@proton.me" class="mail-icon">
+            <img
+              src="./assets/letter.jpg"
+              width="30"
+              alt="Envoyer un mail"
+            />
+          </a>
+          <span class="mail-text">Mail</span>
+        </div>
       </div>
 
       <script>
         window.addEventListener("DOMContentLoaded", async () => {
+          const titleEl = document.getElementById("siteTitleText");
+
+          let currentPersona = "mathieu";
+
+          function setTheme(persona) {
+            document.documentElement.classList.remove("theme-maurice", "theme-franky", "theme-mathieu");
+            document.documentElement.classList.add(`theme-${persona}`);
+          }
+
+          function personaToTitle(persona) {
+            if (persona === "maurice") return "MAURICE LEBRUN [alias]";
+            if (persona === "franky") return "FRANKY FAHRENHEIT [alias]";
+            return "MATHIEU STAUB";
+          }
+
+          function switchPersona(persona) {
+            if (!persona) persona = "mathieu";
+            if (persona === currentPersona) return;
+
+            currentPersona = persona;
+
+            // glitch puis swap titre + thème
+            glitchText("#siteTitleText", 450);
+
+            setTimeout(() => {
+              document.getElementById("siteTitleText").textContent = personaToTitle(persona);
+              setTheme(persona);
+            }, 450);
+          }
+
           const response = await fetch("./assets/projects.json");
           const wordToClass = await response.json();
 
@@ -730,6 +803,8 @@ html.touch-landscape .site-scale {
           let lightboxIndex = 0;
 
           function closeProject() {
+            switchPersona("mathieu");
+            
             stopCarouselAutoplay();
             if (!carouselVisible) return;
 
@@ -993,6 +1068,9 @@ html.touch-landscape .site-scale {
             const key = word.textContent.trim();
             const data = wordToClass[key] || {};
 
+            const persona = data.persona || "mathieu";
+            switchPersona(persona);
+
             selectedTitle.textContent = key;
             descriptionElement.innerHTML = data.description || "";
 
@@ -1165,6 +1243,8 @@ html.touch-landscape .site-scale {
           if (el.dataset.glitching === "1") return;
           el.dataset.glitching = "1";
           const rect = el.getBoundingClientRect();
+          const glitchColor = getComputedStyle(el).color; // ✅ couleur du thème
+
 
           const overlay = document.createElement("div");
           overlay.style.position = "absolute";
@@ -1234,7 +1314,7 @@ html.touch-landscape .site-scale {
         }
 
         window.addEventListener("DOMContentLoaded", () => {
-        const selector = ".maurice-lebrun > span";
+        const selector = ".site-title > span";
 
         // 1er glitch au chargement
         glitchText(selector);
