@@ -1,5 +1,6 @@
 {
   "SOMA [Live]": {
+    "persona": "maurice",
     "description": "- Musique & Cinéma Live -<br><br>Dans le cadre de l’Été Métropolitain 2025 (à BORDEAUX), J'ai travaillé sur un dispositif immersif unique autour du film «Koyaanisqatsi», film culte réalisé par Godfrey Reggio en 1982.<br> En réécrivant entièrement la bande sonore et en dispositionant le public au centre d'un système de diffusion spatialisé, le tout programmé avec MAX/MSP, nous avons modernisé le travail sonore pour appuyer le public à avoir une réflexion profonde sur la relation entre l’homme, la nature, et la technologie.<br><br>#musique #film #MAXMSP",
     "blocks": [
       {
@@ -24,6 +25,7 @@
     ]
   },
   "BONNES VACANCES AU CHÔMAGE [Série]": {
+    "persona": "maurice",
     "description": "- Série Documentaire -<br><br>Darbo était la plus ancienne usine de transformation de bois des Landes. Après avoir été rachetée par divers fonds internationaux, elle a mis la clef sous la porte. Comment les ex-salariés se battent pour obtenir justice et trouver un sens à leurs vies d’après ?<br><br>#Documentaire #film",
     "blocks": [
       {
@@ -67,6 +69,7 @@
     ]
   },
   "JUSTICE & MECAOCTET [Film]": {
+    "persona": "maurice",
     "description": "- FILM -<br><br>MECAOCTET conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec JUSTICE pour imaginer la scénographie de leurs spectacles.<br> J'ai suivi leur équipe sur la dernière tournée -HYPERDRAMA-.<br><br>#film",
     "blocks": [
       {
@@ -89,6 +92,7 @@
     ]
   },
   "GRAN TURISMO [Livre]": {
+    "persona": "maurice",
     "description": "- Livre -<br><br>Après Seuls Sous Les Pins (mon premier livre), ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère.<br>Comment l'humain façonne son territoire à l'image de sa société : Le capital.<br>En collaboration avec Camille Mortelette, géographe et urbaniste, maîtresse de conférences à l’Institut d’Urbanisme et de Géographie Alpine à Grenoble.<br><br>#livre #photographie",
     "blocks": [
     {
@@ -122,6 +126,7 @@
   ]
 },
   "#Photographie": {
+    "persona": "maurice",
     "description": "Images de mes divers travaux en photographie documentaire et commissionnés.",
     "blocks": [
       {
@@ -172,6 +177,7 @@
   ]
 },   
   "#Films": {
+    "persona": "maurice",
     "description": "Ma pratique de la photographie m'a naturellement amené à la fabrique d'images animées.<br><br> Touche f du clavier pour passer en plein écran.",
     "blocks": [
       {
@@ -197,6 +203,7 @@
     ]
   },
   "#Musique": {
+    "persona": "franky",
     "description": "Compositeur de musique de films et sound designer.",
     "blocks": [
       {
