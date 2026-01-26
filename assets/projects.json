@@ -224,28 +224,6 @@
       }
     ]
   },
-  "#MaxMsp": {
-    "persona": "franky",
-    "description": "Pour hybrider mes pratiques visuelles et sonores, je travaille sur Max/Msp.<br>Max est un espace logiciel pour créer votre propre univers visuel/sonore interactif.<br> En sortant de L'IRCAM, j'ai prototypé pour - SOMA -, fabriqué des interfaces A/V interactives pour mes expositions",
-    "blocks": [
-      {
-        "type": "youtube",
-        "youtubeId": "f3E6dffCHIE",
-        "caption": "Franky sur scène"
-      },
-      {
-        "type": "image",
-        "src": "./assets/img/FRANKY.png",
-        "alt": "Franky sur scène"
-      },  
-      {
-        "type": "links",
-        "links": [
-          { "label": "SoundCloud", "url": "https://soundcloud.com/franky-fahrenheit" }
-        ]
-      }
-    ]
-  },
     "Curriculum Vitae": {
     "blocks": [
       {
