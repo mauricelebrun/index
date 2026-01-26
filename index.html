@@ -132,7 +132,7 @@
       .project-layout {
         display: flex;
         align-items: flex-start;
-        gap: 10px;
+        gap: 20px;
       }
 
       .project-media {
@@ -313,7 +313,7 @@
       .module-grid {
         display: grid;
         grid-template-columns: repeat(5, 1fr); /* 4 colonnes */
-        gap: 6px;
+        gap: 8px;
         margin-top: 18px;
       }
 
@@ -381,7 +381,7 @@
 
       .words-meta {
         margin-top: 0px;     /* 🔑 la séparation visuelle */
-        color: #999;
+        color: #0d92ffff;
       }
 
       .words-meta .word {
@@ -656,6 +656,10 @@
         opacity: 0.7;
       }
 
+      .site-title {
+        cursor: pointer;
+      }
+
     </style>
   </head>
 
@@ -717,17 +721,18 @@
 
           <!-- Projects list -->
           <div class="all-words">
-            <span class="word is-highlighted">SOMA [Live]</span
+            <span class="word is-highlighted">SOMA [Live A/V]</span
             ><span class="word is-highlighted">JUSTICE & MECAOCTET [Film]</span
             ><span class="word is-highlighted">GRAN TURISMO [Livre]</span
             ><span class="word">BONNES VACANCES AU CHÔMAGE [Série]</span>
           </div>
 
           <div class="words-meta">
-            <span class="word meta">#Photographie</span>
+            <span class="word">#Photographie</span>
             <span class="word">#Films</span>
             <span class="word">#Musique</span>
-            <span class="word meta">Curriculum Vitae</span>
+            <span class="word">#MaxMsp</span>
+            <span class="word">Curriculum Vitae</span>
           </div>
 
           <p class="legend">
@@ -755,6 +760,16 @@
       </div>
 
       <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const title = document.querySelector(".site-title");
+
+          if (!title) return;
+
+          title.addEventListener("click", () => {
+            window.location.reload();
+          });
+        });
+        
         window.addEventListener("DOMContentLoaded", async () => {
           const titleEl = document.getElementById("siteTitleText");
 
