@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
+    <link rel="preload" href="./assets/Avenir%20Black.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/Avenir%20Book.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/Courier.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/projects.json" as="fetch" type="application/json" crossorigin>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -113,7 +118,7 @@
 
       .selected-project-title {
         font-family: "Avenir Book";
-        font-weight: bold;
+        font-weight: none;
         font-style: oblique;
         margin: 0 0 10px 0;
         color: black;
@@ -343,7 +348,7 @@
 
       span.word {
         font-family: "Avenir book";
-        font-weight: bold;
+        font-weight: none;
         font-style: oblique;
         cursor: pointer;
         transition: opacity 0.6s ease, color 0.6s ease;
