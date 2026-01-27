@@ -204,23 +204,27 @@
   },
   "#Musique": {
     "persona": "franky",
-    "description": "Franky est mon alias compositeur de musique de films, musique live.<br><br>J'ai évolué avec les groupes :<br>- PECNOLOGIE (1 Album)<br>- RAS El HANOUT (1 EP) et bien d'autres collaborations.<br><br>Un album et un live sont en préparation.",
+    "description": "Franky est mon alias compositeur de musique de films, musique live.<br><br>J'ai évolué avec les groupes :<br>- PECNOLOGIE (1 Album)<br>- RAS El HANOUT (1 EP) et bien d'autres collaborations.<br><br>Un album et un live sont en préparation.<br><br><a href='https://soundcloud.com/franky-fahrenheit' target='_blank'>Soundcloud Franky</a><br><br><a href='https://soundcloud.com/pecnologie' target='_blank'>Soundcloud Pecnologie</a>",
     "blocks": [
+      {
+        "type": "image",
+        "src": "./assets/img/FRANKY.png",
+        "alt": "Photographié par Romain Campet."
+      },
       {
         "type": "youtube",
         "youtubeId": "f3E6dffCHIE",
         "caption": "Franky sur scène"
       },
+       {
+        "type": "youtube",
+        "youtubeId": "xuVC7AYzvK0",
+        "caption": "Le Banger de Pecnologie"
+      },
       {
-        "type": "image",
-        "src": "./assets/img/FRANKY.png",
-        "alt": "Franky sur scène"
-      },  
-      {
-        "type": "links",
-        "links": [
-          { "label": "SoundCloud", "url": "https://soundcloud.com/franky-fahrenheit" }
-        ]
+        "type": "youtube",
+        "youtubeId": "WEPJdiFi3Zo",
+        "caption": "Franky avec Ras El Hanout chez Alriq"
       }
     ]
   },
