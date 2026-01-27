@@ -26,7 +26,7 @@
   },
   "BONNES VACANCES AU CHÔMAGE [Série]": {
     "persona": "maurice",
-    "description": "- Série Documentaire -<br><br>Darbo était la plus ancienne usine de transformation de bois des Landes. Après avoir été rachetée par divers fonds internationaux, elle a mis la clef sous la porte. Comment les ex-salariés se battent pour obtenir justice et trouver un sens à leurs vies d’après ?<br><br>Co-écrite et réalisée avec Julien Campet<br>Produite par Far Ouest<br><br>#réalisation #Documentaire #film",
+    "description": "- Série Documentaire -<br><br>Darbo était la plus ancienne usine de transformation de bois des Landes. Après avoir été rachetée par divers fonds internationaux, elle a mis la clef sous la porte. Comment les ex-salariés se battent pour obtenir justice et trouver un sens à leurs vies d’après ?<br><br>#réalisation #Documentaire #film",
     "blocks": [
       {
         "type": "carousel",
@@ -70,7 +70,7 @@
   },
   "JUSTICE & MECAOCTET [Film]": {
     "persona": "maurice",
-    "description": "- Film documentaire -<br><br>MECAOCTET conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec JUSTICE pour imaginer la scénographie de leurs spectacles.<br> J'ai suivi leur équipe sur la dernière tournée -HYPERDRAMA-.<br><br>Produit par Kloudbox<br><br>#réalisation #film",
+    "description": "- Film documentaire -<br><br>MECAOCTET conçoit des machines spéciales pour le spectacle vivant. Depuis plus d'une dizaines d'années, ils travaillent main dans la main avec JUSTICE pour imaginer la scénographie de leurs spectacles.<br> J'ai suivi leur équipe sur la dernière tournée -HYPERDRAMA-.<br><br>#réalisation #film",
     "blocks": [
       {
         "type": "carousel",
@@ -93,7 +93,7 @@
   },
   "GRAN TURISMO [Livre]": {
     "persona": "maurice",
-    "description": "- Livre photographique -<br><br>Après Seuls Sous Les Pins (mon premier livre), ce livre photographique regroupe tous mes travaux l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère.<br>Comment l'humain façonne son territoire à l'image de sa société : Le capital.<br><br>En collaboration avec Camille Mortelette, géographe et urbaniste, maîtresse de conférences à l’Institut d’Urbanisme et de Géographie Alpine à Grenoble.<br><br>#livre #photographie #architecture",
+    "description": "- Livre photographique -<br><br>Après Seuls Sous Les Pins (mon premier livre), ce livre photographique regroupe tous mes travaux sur ma vision de l'ultra tourisme à travers son architecture. Infrastructures et superstructures mais aussi topographique, paysagère.<br>Comment l'humain façonne son territoire à l'image de sa société : Le capital.<br>En collaboration avec Camille Mortelette, géographe et urbaniste, maîtresse de conférences à l’Institut d’Urbanisme et de Géographie Alpine à Grenoble.<br><br>#livre #photographie #architecture",
     "blocks": [
     {
         "type": "carousel",
@@ -208,7 +208,7 @@
     "blocks": [
       {
         "type": "image",
-        "src": "./assets/img/FRANKY.jpg",
+        "src": "./assets/img/FRANKY.png",
         "alt": "Photographié par Romain Campet."
       },
       {
@@ -237,6 +237,11 @@
         "images": ["./assets/img/max/01.jpg",
                   "./assets/img/max/02.jpg",
                   "./assets/img/max/03.jpg"]
+      },
+      {
+        "type": "youtube",
+        "youtubeId": "5yCbNLPC0fs",
+        "caption": "Sequencer Algorithmique dans Max/Msp"
       }
     ]
   },
