@@ -7,696 +7,574 @@
     <link rel="preload" href="./assets/projects.json" as="fetch" type="application/json" crossorigin>
 
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <style>
       /* -----------------------
          Fonts
       ------------------------ */
-      @font-face {
-        font-family: "Avenir Black";
-        src: url(assets/Avenir\ Black.ttf);
+      @font-face { font-family: "Avenir Black"; src: url(assets/Avenir\ Black.ttf); }
+      @font-face { font-family: "Avenir Book";  src: url(assets/Avenir\ Book.ttf); }
+      @font-face { font-family: "Avenir Heavy"; src: url(assets/Avenir\ Heavy.ttf); }
+      @font-face { font-family: "Courier";      src: url(assets/Courier.otf); }
+
+      /* -----------------------
+         Theme (base + 2 alternatifs)
+      ------------------------ */
+      :root{
+        --bg:#ffffff;
+        --fg:#000000;
+        --muted:#727272;
+        --accent:#ff0000;
+        --link:#000000;
+        --link-border:#000000;
       }
-      @font-face {
-        font-family: "Avenir Book";
-        src: url(assets/Avenir\ Book.ttf);
+
+      html.theme-alt-a{
+        --bg:#000000;
+        --fg:#00ff22;
+        --muted:rgba(0,255,34,0.7);
+        --accent:#51ff00;
+        --link:#00ff22;
+        --link-border:rgba(0,255,34,0.8);
       }
-      @font-face {
-        font-family: "Avenir Heavy";
-        src: url(assets/Avenir\ Heavy.ttf);
+
+      html.theme-alt-b{
+        --bg:#ffffff;
+        --fg:#eb2727;
+        --muted:rgba(235,39,39,0.6);
+        --accent:#eb2727;
+        --link:#eb2727;
+        --link-border:rgba(235,39,39,0.8);
       }
-      @font-face {
-        font-family: "Courier";
-        src: url(assets/Courier.otf);
+
+      html, body{
+        height:100%;
+        margin:0;
+        background:var(--bg);
+        color:var(--fg);
       }
 
       /* -----------------------
-         Base
+         Layout / Scale
       ------------------------ */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        background-color: white;
+      .site-scale{
+        transform:scale(0.85);
+        transform-origin:top left;
+        width:117.65%; /* 1 / 0.85 */
       }
 
-      /* Scale whole site */
-      .site-scale {
-        transform: scale(0.85);
-        transform-origin: top left;
-        width: 117.65%; /* 1 / 0.85 */
-      } 
-
-      .container {
-        width: 60%;
-        height: 100%;
-        margin-left: 8%;
-        margin-right: auto;
-        margin-top: 50px;
+      .container{
+        width:60%;
+        height:100%;
+        margin-left:8%;
+        margin-right:auto;
+        margin-top:50px;
       }
 
-      .content {
-        width: 1200px;
-        position: relative;
+      .content{
+        width:1200px;
+        position:relative;
       }
 
       /* -----------------------
          Header
       ------------------------ */
-      .site-title {
-        padding-top: 5px;
-        font-family: "Avenir Black";
-        margin: 0;
-        font-size: 60px;
-        line-height: 0.8;
-        letter-spacing: 2px;
-        white-space: pre;
-        position: relative;
-        overflow: hidden;
+      .site-title{
+        padding-top:5px;
+        font-family:"Avenir Black";
+        margin:0;
+        font-size:60px;
+        line-height:0.8;
+        letter-spacing:2px;
+        white-space:pre;
+        position:relative;
+        overflow:hidden;
+        cursor:pointer;
+        color:var(--fg);
       }
 
-      p.headline {
-        font-family: "Avenir Book";
-        margin: 0;
+      p.headline{
+        font-family:"Avenir Book";
+        margin:0;
+        color:var(--fg);
       }
 
-      p.location {
-        font-family: "Avenir Book";
-        margin: 0;
+      p.location{
+        font-family:"Avenir Book";
+        margin:0;
+        color:var(--muted);
       }
+
+      .location a{
+        color:rgba(0, 109, 167, 0.92);
+        text-decoration:none;
+        border-bottom:0;
+        transition:opacity .2s ease;
+      }
+      .location a:hover{ opacity:.7; }
 
       /* -----------------------
          Projects panel (fold)
       ------------------------ */
-      .caroussel-container {
-        /* quand c'est fermé : pas d'espace réservé */
-        margin-top: 0;
-        margin-bottom: 0;
-
-        color: #727272;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-
-        transition: max-height 1s ease-in-out, opacity 1s ease-in-out,
-          margin-top 1s ease-in-out, margin-bottom 1s ease-in-out;
+      .caroussel-container{
+        margin-top:0;
+        margin-bottom:0;
+        max-height:0;
+        overflow:hidden;
+        opacity:0;
+        transition:
+          max-height 1s ease-in-out,
+          opacity 1s ease-in-out,
+          margin-top 1s ease-in-out,
+          margin-bottom 1s ease-in-out;
+      }
+      .caroussel-container.visible{
+        margin-top:40px;
+        margin-bottom:50px;
+        max-height:2000px;
+        opacity:1;
       }
 
-      .caroussel-container.visible {
-        /* quand c'est ouvert : on remet l'air */
-        margin-top: 40px;
-        margin-bottom: 50px;
-
-        max-height: 2000px;
-        opacity: 1;
+      .selected-word-container{
+        margin-bottom:10px;
+        min-height:20px;
+        position:relative;
       }
 
-      .selected-word-container {
-        margin-bottom: 10px;
-        min-height: 20px;
-        position: relative;
+      .selected-project-title{
+        font-family:"Avenir Book";
+        font-weight:bold;
+        font-style:oblique;
+        margin:0 0 10px 0;
+        opacity:0;
+        transition:opacity .4s ease;
+        display:inline-block;
+        cursor:pointer;
+        color:var(--accent);
+      }
+      .selected-project-title.visible{ opacity:1; }
+
+      .project-layout{
+        display:flex;
+        align-items:flex-start;
+        gap:20px;
       }
 
-      .selected-project-title {
-        font-family: "Avenir Book";
-        font-weight: none;
-        font-style: oblique;
-        margin: 0 0 10px 0;
-        color: black;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        display: inline-block;
-        cursor: pointer;
-      }
+      .project-media{ flex:0 0 auto; }
+      .project-text{ flex:0 0 420px; max-width:420px; }
 
-      .selected-project-title.visible {
-        opacity: 1;
-        color: red;
+      p.description-project{
+        font-family:"Courier";
+        max-width:420px;
+        margin:12px 0 20px 0;
+        opacity:0;
+        transition:opacity .6s ease;
+        color:var(--fg);
       }
+      .caroussel-container.visible p.description-project{ opacity:1; }
 
-      /* 2-column layout inside the fold */
-      .project-layout {
-        display: flex;
-        align-items: flex-start;
-        gap: 20px;
+      .description-project > a{
+        border:1px solid var(--link-border);
+        padding:0 5px;
+        text-decoration:none;
+        color:var(--link);
+        transition:opacity .2s ease;
       }
-
-      .project-media {
-        flex: 0 0 auto;
-      }
-
-      .project-text {
-        flex: 0 0 420px;
-        max-width: 420px;
-      }
-
-      /* Description: fades in with fold */
-      p.description-project {
-        font-family: "Courier";
-        max-width: 420px;
-        margin: 12px 0 20px 0;
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-
-      .caroussel-container.visible p.description-project {
-        opacity: 1;
-        transition: opacity 0.6s ease;
-      }
-
-      .description-project > a {
-        border: 1px solid black;
-        padding: 0 5px;
-        text-decoration: none;
-        color: black;
-        transition: all 0.2s;
-      }
-
-      .description-project > a:hover {
-        color: rgb(103, 100, 100);
-        border: 1px solid rgb(87, 85, 85);
-      }
+      .description-project > a:hover{ opacity:.75; }
 
       /* -----------------------
          Carousel
       ------------------------ */
-      .caroussel-image {
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
+      .caroussel-image{
+        display:flex;
+        gap:20px;
+        align-items:flex-start;
+      }
+      .caroussel-image.is-empty{ display:none; }
+
+      .carousel-wrapper{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-top:21px;
       }
 
-      .carousel-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 21px;
+      .carousel-viewport{
+        overflow:hidden;
+        width:calc(200px * 3 + 5px * 2);
       }
 
-      .carousel-viewport {
-        overflow: hidden;
-        width: calc(200px * 3 + 5px * 2);
+      .images-wrapper{
+        display:flex;
+        gap:5px;
+        transition:transform 1s ease-in-out;
       }
 
-      .images-wrapper {
-        display: flex;
-        gap: 5px;
-        transition: transform 1s ease-in-out;
+      .images-wrapper img{
+        width:220px;
+        height:150px;
+        object-fit:cover;
+        object-position:center;
+        border-radius:2px;
+        cursor:pointer;
       }
 
-      .images-wrapper img {
-        width: 220px;
-        height: 150px;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 2px;
-        cursor: pointer;
+      .carousel-button{
+        background:none;
+        border:none;
+        font-size:1.4rem;
+        font-weight:bold;
+        color:var(--muted);
+        cursor:pointer;
+        padding:0 10px;
+        transition:opacity .2s ease;
       }
-
-      .carousel-button {
-        background: none;
-        border: none;
-        font-size: 1.4rem;
-        font-weight: bold;
-        color: #3f3f3fff;
-        cursor: pointer;
-        padding: 0 10px;
-        transition: color 0.2s;
-      }
-
-      .carousel-button:hover {
-        color: #000;
-      }
-
-      .carousel-button.hidden {
-        visibility: hidden;
-      }
-
-      .caroussel-image.is-empty {
-       display: none;
-      }
+      .carousel-button:hover{ opacity:.7; }
+      .carousel-button.hidden{ visibility:hidden; }
 
       /* -----------------------
          Modules
       ------------------------ */
-      .project-modules {
-        margin-top: 0;
-        flex-direction: column;
-        gap: 0px;
-        padding-left: 51px;
-        width: 660px;
+      .project-modules{
+        display:flex;            /* important */
+        flex-direction:column;
+        gap:0;
+        padding-left:51px;
+        width:660px;
       }
 
-      .module-youtube {
-        width: 612px;
-        aspect-ratio: 16 / 9;
-        margin-left: 0px;
-        margin-top: 18px;
-        border: 0;
-        border-radius: 0px;
-        outline: none;
-        box-shadow: none;
-        overflow: hidden;
+      .module-youtube{
+        width:612px;
+        aspect-ratio:16 / 9;
+        margin-top:18px;
+        border:0;
+        border-radius:0;
+        outline:none;
+        box-shadow:none;
+        overflow:hidden;
       }
 
-      .module-caption {
-        margin-top: 6px;
-        font-family: "Avenir Book";
-        font-size: 12px;
-        color: #727272;
-        letter-spacing: 0.2px;
+      .module-caption{
+        margin-top:6px;
+        font-family:"Avenir Book";
+        font-size:12px;
+        color:var(--muted);
+        letter-spacing:.2px;
       }
 
-      .module-image {
-        width: 92.5%;
-        height: auto;
-        border-radius: 0px;
-        display: block;
-        margin-left: 0px;
-        margin-top: 18px;
+      .module-image{
+        width:92.5%;
+        height:auto;
+        border-radius:0px;
+        display:block;
+        margin-top:18px;
       }
 
-      .module-links {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-left: 0px;
-        margin-top: 10px;
+      .module-links{
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-top:10px;
+      }
+      .module-links a{
+        color:var(--link);
+        font-family:"Courier";
+        font-style:oblique;
+        font-size:14px;
+        transition:opacity .2s ease;
+      }
+      .module-links a:hover{ opacity:.7; }
+
+      .pdf-wrapper{
+        background:#fff;
+        padding:0;
+        border-radius:0px;
+        overflow:hidden;
+        width:612px;
+        box-sizing:border-box;
+        margin-top:8px;
+      }
+      .module-pdf{
+        width:100%;
+        border:none;
+        outline:none;
+        background:white;
+        box-shadow:none;
+        display:block;
       }
 
-      .module-links a {
-        color: rgba(0, 0, 0, 1);
-        font-family: "Courier";
-        font-style: oblique;
-        font-size: 14px;
-        transition: all 0.2s;
+      .module-grid{
+        display:grid;
+        grid-template-columns:repeat(5, 1fr);
+        gap:8px;
+        margin-top:18px;
       }
 
-      .module-links a:hover {
-        color: rgb(250, 0, 0);
+      .module-grid-thumb{
+        width:100%;
+        aspect-ratio:1 / 1;
+        object-fit:cover;
+        display:block;
+        cursor:pointer;
+        border-radius:2px;
       }
-
-      .pdf-wrapper {
-        background: white;
-        padding: 0px;
-        border-radius: 6px;
-        overflow: hidden;
-        width: 612px;
-        box-sizing: border-box;
-        margin-left: 0px;
-        margin-top: 8px;
-      }
-
-      .module-pdf {
-        width: 100%;
-        border: none;
-        outline: none;
-        background: white;
-        box-shadow: none;
-        display: block;
-      }
-
-      .module-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr); /* 4 colonnes */
-        gap: 8px;
-        margin-top: 18px;
-      }
-
-      .module-grid-thumb {
-        width: 100%;
-        aspect-ratio: 1 / 1;     /* ✅ carré */
-        object-fit: cover;       /* ✅ crop propre */
-        display: block;
-        cursor: pointer;
-        border-radius: 2px;
-      }
-
 
       /* -----------------------
          Words list
       ------------------------ */
-      div.all-words {
-        margin-top: 0px;
-        margin-bottom: 2px;
-        width: 550px;      /* ajuster les titres */
-        transition: margin-top 1s ease-in-out;
+      .all-words{
+        margin-top:20px;
+        margin-bottom:3px;
+        width:550px;
+        transition:margin-top 1s ease-in-out;
+      }
+      .all-words.pushed{ margin-top:10px; }
+
+      span.word{
+        font-family:"Avenir Book";
+        font-weight:bold;
+        font-style:oblique;
+        cursor:pointer;
+        transition:opacity .6s ease, color .6s ease;
+        position:relative;
+        color:var(--muted);
+      }
+      span.word.active,
+      span.word:hover{ color:var(--fg); }
+
+      span.word.hidden{
+        opacity:0;
+        pointer-events:none;
       }
 
-      div.all-words.pushed {
-        margin-top: 10px;
+      span.word:not(:last-child):after{
+        content:", ";
+        font-weight:normal;
+        font-style:normal;
       }
 
-      span.word {
-        font-family: "Avenir book";
-        font-weight: none;
-        font-style: oblique;
-        cursor: pointer;
-        transition: opacity 0.6s ease, color 0.6s ease;
-        position: relative;
-        color: #727272;
+      .word.is-highlighted{ color:var(--accent); }
+
+      .words-meta{
+        margin-top:0;
+        color:#0d92ffff;
+        white-space:nowrap;
+      }
+      .words-meta .word{
+        font-weight:normal;
+        font-style:normal;
       }
 
-      span.word.active {
-        color: black;
+      /* -----------------------
+         Legend + contact
+      ------------------------ */
+      .legend{
+        margin-top:0px;
+        font-family:"Avenir Book";
+        color:var(--muted);
+      }
+      .legend .tag{
+        color:var(--accent);
+        font-weight:bold;
       }
 
-      span.word.hidden {
-        opacity: 0;
-        pointer-events: none; /* hide & disable click */
+      .contact-block{ margin-top:50px; }
+
+      .mail-row{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
       }
 
-      span.word:not(:last-child):after {
-        content: ", ";
-        font-weight: normal;
-        font-style: normal;
-      }
-
-      span.word:hover {
-        color: black;
-      }
-
-      .word.is-highlighted {
-        color: rgba(255, 0, 0, 0.92);
-      }
-
-      .words-projects,
-      .words-meta {
-        white-space: nowrap; /* chaque ligne reste sur une seule ligne */
-      }
-
-      .words-meta {
-        margin-top: 0px;     /* 🔑 la séparation visuelle */
-        color: #0d92ffff;
-      }
-
-      .words-meta .word {
-        font-weight: normal;
-        font-style: normal;
+      .mail-text{
+        font-family:"Avenir Book";
+        font-size:14px;
+        color:var(--fg);
+        opacity:.8;
+        cursor:default;
+        user-select:none;
       }
 
       /* -----------------------
          Lightbox
       ------------------------ */
-      .lightbox {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2000;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
+      .lightbox{
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.85);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:2000;
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .2s ease;
+      }
+      .lightbox.visible{
+        opacity:1;
+        pointer-events:all;
+      }
+      .lightbox img{
+        max-width:90vw;
+        max-height:80vh;
+        box-shadow:0 0 20px rgba(0,0,0,.5);
+        border-radius:4px;
+        object-fit:contain;
+      }
+      .lightbox-content{
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        text-align:left;
+      }
+      .lightbox-label{
+        margin-top:8px;
+        font-family:"Avenir Black";
+        font-size:20px;
+        color:white;
+      }
+      .lightbox-hint{
+        margin-top:6px;
+        font-family:"Avenir Book";
+        font-size:14px;
+        color:rgba(255,255,255,.75);
       }
 
-      .lightbox.visible {
-        opacity: 1;
-        pointer-events: all;
+      /* -----------------------
+         Rotate overlay (mobile portrait)
+      ------------------------ */
+      .rotate-overlay{
+        display:none;
+        position:fixed;
+        inset:0;
+        width:100vw;
+        height:100vh;
+        height:100dvh;
+        height:100svh;
+        background:black;
+        z-index:2147483647;
+        align-items:center;
+        justify-content:center;
+        padding:0;
+        margin:0;
+        overflow:hidden;
+      }
+      .rotate-card{
+        width:min(88vw, 360px);
+        text-align:center;
+        font-family:"Avenir Book";
+        color:white;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:12px;
+        transform:scale(.60);
+        transform-origin:center;
+      }
+      .rotate-video{
+        width:100%;
+        max-width:260px;
+        height:auto;
+        display:block;
+        object-fit:contain;
+        opacity:.9;
+      }
+      .rotate-title{
+        font-family:"Avenir Black";
+        font-size:20px;
+        margin-bottom:6px;
+      }
+      .rotate-subtitle{
+        font-size:14px;
+        opacity:.75;
       }
 
-      .lightbox img {
-        max-width: 90vw;
-        max-height: 80vh;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        border-radius: 4px;
-        object-fit: contain;
+      html.touch-portrait .rotate-overlay{ display:flex; }
+
+      html.touch-portrait .site-scale{
+        transform:none !important;
+        width:100% !important;
       }
 
-      .lightbox-content {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
+      html.touch-landscape .site-scale{
+        transform:scale(0.65) !important;
+        transform-origin:top left !important;
+        width:153.85% !important; /* 1 / 0.65 */
       }
 
-      .lightbox-label {
-        margin-top: 8px;
-        font-family: "Avenir Black";
-        font-size: 20px;
-        color: white;
+      /* -----------------------
+         Bottom slideshow (double buffer)
+      ------------------------ */
+      .random-slideshow-container{
+        margin-top:10px;
+        width:min(700px, 100%);
       }
 
-      .lightbox-hint {
-        margin-top: 6px;
-        font-family: "Avenir Book";
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.75);
+      .random-slideshow-frame{
+        width:100%;
+        height:350px;
+        overflow:hidden;
+        position:relative;
+        background:#fff;
+        cursor:pointer;
       }
 
-      /* Overlay rotation (hidden by default) */
-      .rotate-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        width: 100vw;
-        height: 100vh;
-        height: 100dvh;     /* ✅ Android Chrome */
-        height: 100svh;     /* ✅ fallback */
-        background: black;
-        z-index: 9999;
-      
-        align-items: center;
-        justify-content: center;
-      
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
-      }
-      
-      .rotate-card {
-        width: min(88vw, 360px);
-        text-align: center;
-        font-family: "Avenir Book";
-        color: white;
-      
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-      
-        transform: scale(0.60);  /* ✅ plus fin */
-        transform-origin: center;
-      }
-      
-      .rotate-video {
-        width: 100%;
-        max-width: 260px;  /* ✅ évite l’effet “gros” */
-        height: auto;
-        display: block;
-        object-fit: contain;
-        opacity: 0.9;
+      .random-slideshow-image{
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        object-position:center;
+        display:block;
+        z-index:1;
       }
 
-      .rotate-title {
-        font-family: "Avenir Black";
-        font-size: 20px;
-        margin-bottom: 6px;
+      .random-slideshow-flash{
+        position:absolute;
+        inset:0;
+        background: var(--bg); /* ou #fff si tu veux “flash blanc” pur */
+        opacity:0;
+        pointer-events:none;
+        z-index:10;            /* ✅ au-dessus de l’image */
       }
 
-      .rotate-subtitle {
-        font-size: 14px;
-        opacity: 0.75;
-      }
-      
-        /* ✅ IMPORTANT : on désactive le scale du site derrière,
-           sinon Android "re-zoome" la page 
-        .site-scale {
-          transform: none !important;
-          width: 100% !important;
-        } */
-
-      /* overlay toujours au-dessus */
-        .rotate-overlay {
-          z-index: 2147483647; /* ultra au-dessus */
-        }
-
-    .mail-row {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 30px;
-    }
-
-    .mail-icon {
-      display: inline-block;
-    }
-
-    .mail-text {
-      font-family: "Avenir Book";
-      font-size: 14px;
-      color: #727272;
-      cursor: default; /* 🔑 pas de main */
-      user-select: none;
-    }
-
-    .contact-block {
-      margin-top: 50px;
-      margin-left: 0px;
-    }
-
-    .legend {
-      margin-top: 0px;
-      margin-bottom: 20px;
-      font-family: "Avenir Book";
-      font-style: none;
-      font-size: auto;
-      color: #727272;
-    }
-
-    .legend .tag {
-      color: red;
-      font-family: "Avenir Book";
-      font-weight: bold;
-    }
-
-    /* Diaporama en bas */
-    .random-slideshow-container {
-      margin-top: 10px;
-      width: 700px;              /* ajuste si tu veux */
-    }
-
-    .random-slideshow-frame {
-      width: 100%;
-      height: 350px;             /* hauteur du cadre */
-      overflow: hidden;
-      position: relative;
-      background: #fff;
-    }
-
-    .random-slideshow-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;         /* ✅ crop propre */
-      object-position: center;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-      display: block;
-    }
-
-    .random-slideshow-caption {
-      margin-top: 8px;
-      font-family: "Avenir Book";
-      font-size: 12px;
-      color: #727272;
-      letter-spacing: 0.3px;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .random-slideshow-frame {
-       cursor: pointer;
-    }
-
-    html.touch-portrait .rotate-overlay {
-      display: flex;
-    }
-
-    html.touch-portrait .site-scale {
-      transform: none !important;
-      width: 100% !important;
-    }
-
-    html.touch-landscape .site-scale {
-      transform: scale(0.65) !important;
-      transform-origin: top left !important;
-      width: 153.85% !important; /* 1 / 0.65 */
-    }
-
-    :root {
-      --bg: #ffffff;
-      --fg: #000000;
-      --muted: #727272;
-      --accent: #ff0000;
-      --link: #000000;
-      --link-border: #000000;
-    }
-
-    html, body {
-      background: var(--bg);
-      color: var(--fg);
-    }
-
-    /* Titre haut */
-      .maurice-lebrun,
-      .site-title,
-      .maurice-lebrun span,
-      #siteTitleText {
-        color: var(--fg);
+      .random-slideshow-caption{
+        margin-top:8px;
+        font-family:"Avenir Book"; /* ✅ restore */
+        font-size:12px;
+        color:var(--muted);
+        letter-spacing:.3px;
+        opacity:0;
+        transition:opacity 1s ease;
       }
 
-      /* Words */
-      span.word { color: var(--muted); }
-      span.word.active,
-      span.word:hover { color: var(--fg); }
 
-      /* Si tu as des words rouges, mets-les sur l'accent */
-      .word.is-highlighted { color: var(--accent); }
-      .selected-project-title.visible { color: var(--accent); }
-
-      /* Description */
-      p.description-project { color: var(--fg); }
-
-      /* Liens dans la description */
-      .description-project > a {
-        color: var(--link);
-        border-color: var(--link-border);
-      }
-
-      .description-project > a:hover {
-        opacity: 0.8;
-      }
-
-      .location a {
-      color: rgba(0, 109, 167, 0.92);             /*  prend la couleur du thème */
-        text-decoration: none;
-        border-bottom: 0px solid currentColor;
-        padding-bottom: Opx;
-        transition: opacity 0.2s ease;
-      }
-
-      .location a:hover {
-        opacity: 0.7;
-      }
-
-      .site-title {
-        cursor: pointer;
-      }
 
     </style>
   </head>
 
   <body>
     <div class="rotate-overlay">
-    <div class="rotate-card">
-      <video
-        class="rotate-video"
-        src="./assets/rotatephone2.mp4"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-      ></video>
-      <div class="rotate-title">Rotate your screen</div>
-      <div class="rotate-subtitle">This website is designed for landscape</div>
+      <div class="rotate-card">
+        <video class="rotate-video" src="./assets/rotatephone2.mp4" autoplay muted loop playsinline preload="auto"></video>
+        <div class="rotate-title">Rotate your screen</div>
+        <div class="rotate-subtitle">This website is designed for landscape</div>
+      </div>
     </div>
-  </div>
+
     <div class="site-scale">
       <div class="container">
         <div class="content">
           <h1 class="site-title"><span id="siteTitleText">MATHIEU STAUB</span></h1>
-          <p class="headline">
-            <span>INSTALLATIONS AUDIOVISUELLES NARRATIVES & MUSICALES</span>
+
+          <p class="headline"><span>INSTALLATIONS AUDIOVISUELLES NARRATIVES & MUSICALES</span></p>
+
+          <p class="location">
+            Diplômé de
+            <a href="https://www.ircam.fr/lircam" target="_blank" rel="noopener noreferrer">l’IRCAM Paris</a>
           </p>
-          <p class="location">Diplômé de <a href="https://www.ircam.fr/lircam" target="_blank" rel="noopener noreferrer">
-              l’IRCAM Paris</p>
-              </a>
-            </p>
 
           <div class="caroussel-container">
             <div class="selected-word-container">
@@ -704,7 +582,6 @@
             </div>
 
             <div class="project-layout">
-              <!-- LEFT: media -->
               <div class="project-media">
                 <div class="caroussel-image">
                   <div class="carousel-wrapper">
@@ -719,24 +596,21 @@
                 <div class="project-modules"></div>
               </div>
 
-              <!-- RIGHT: text -->
               <div class="project-text">
                 <p class="word-description description-project"></p>
               </div>
             </div>
           </div>
 
-          <!-- Projects list -->
           <div class="all-words">
-            <span class="word is-highlighted">SOMA [Live A/V]</span
-            ><span class="word is-highlighted">JUSTICE & MECAOCTET [Film]</span
-            ><span class="word is-highlighted">GRAN TURISMO [Livre]</span
-            ><span class="word">BONNES VACANCES AU CHÔMAGE [Série]</span>
+            <span class="word is-highlighted">SOMA [Live A/V]</span>
+            <span class="word is-highlighted">JUSTICE & MECAOCTET [Film]</span>
+            <span class="word is-highlighted">GRAN TURISMO [Livre]</span>
+            <span class="word">BONNES VACANCES AU CHÔMAGE [Série]</span>
           </div>
-          <p class="legend">
-           <span class="tag">[...]</span> Projets récents
-            </p>
-          </div>
+
+           <p class="legend"><span class="tag">[...]</span> = Projets récents</p>
+
           <div class="words-meta">
             <span class="word">#Photographie</span>
             <span class="word">#Films</span>
@@ -745,835 +619,797 @@
             <span class="word">Curriculum Vitae</span>
           </div>
 
-          <!-- Diaporama -->
           <div class="random-slideshow-container">
             <div class="random-slideshow-frame">
               <img class="random-slideshow-image" src="" alt="Image aléatoire" />
+              <div class="random-slideshow-flash"></div>
+            </div>
+            <div class="random-slideshow-caption"></div>
           </div>
-          <div class="random-slideshow-caption"></div>
-        </div>
-        
+
           <div class="contact-block">
-        <div class="mail-row">
-          <a href="mailto:contact.mauricelebrun@proton.me" class="mail-icon">
-            <img
-              src="./assets/letter.jpg"
-              width="30"
-              alt="Envoyer un mail"
-            />
-          </a>
-          <span class="mail-text"></span>
+            <div class="mail-row">
+              <a href="mailto:contact.mauricelebrun@proton.me" class="mail-icon">
+                <img src="./assets/letter.jpg" width="30" alt="Envoyer un mail" />
+              </a>
+              <span class="mail-text"></span>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const title = document.querySelector(".site-title");
-
-          if (!title) return;
-
-          title.addEventListener("click", () => {
-            window.location.reload();
-          });
-        });
-        
-        window.addEventListener("DOMContentLoaded", async () => {
-          const titleEl = document.getElementById("siteTitleText");
-
-          let currentPersona = "mathieu";
-
-          function setTheme(persona) {
-            document.documentElement.classList.remove("theme-maurice", "theme-franky", "theme-mathieu");
-            document.documentElement.classList.add(`theme-${persona}`);
-          }
-
-          function personaToTitle(persona) {
-            if (persona === "maurice") return "MAURICE LEBRUN [alias]";
-            if (persona === "franky") return "FRANKY FAHRENHEIT [alias]";
-            return "MATHIEU STAUB";
-          }
-
-          function switchPersona(persona) {
-            if (!persona) persona = "mathieu";
-            if (persona === currentPersona) return;
-
-            currentPersona = persona;
-
-            // glitch puis swap titre + thème
-            glitchText("#siteTitleText", 450);
-
-            setTimeout(() => {
-              document.getElementById("siteTitleText").textContent = personaToTitle(persona);
-              setTheme(persona);
-            }, 450);
-          }
-
-          const response = await fetch("./assets/projects.json");
-          const wordToClass = await response.json();
-
-          const words = document.querySelectorAll(".word");
-          const descriptionElement = document.querySelector(".word-description");
-          const carousselContainer = document.querySelector(".caroussel-container");
-          const allWordsContainer = document.querySelector(".all-words");
-          const selectedTitle = document.querySelector(".selected-project-title");
-          const modulesContainer = document.querySelector(".project-modules");
-
-          const imagesWrapper = document.querySelector(".images-wrapper");
-          const prevBtn = document.getElementById("prevBtn");
-          const nextBtn = document.getElementById("nextBtn");
-
-          const ITEMS_TO_SHOW = 3;
-          const THUMB_W = 220;
-          const GAP = 5;
-          const SLIDE_WIDTH = THUMB_W + GAP;
-          const OPEN_CLOSE_MS = 1000;
-
-          let carouselVisible = false;
-          let currentSelectedWord = null;
-
-          let activeIndex = 0;
-          let currentImages = [];
-          let isTransitioning = false;
-          let carouselTimer = null;
-          const CAROUSEL_AUTOPLAY_MS = 5000;
-
-          let lightboxIndex = 0;
-
-          function closeProject() {
-            switchPersona("mathieu");
-            
-            stopCarouselAutoplay();
-            if (!carouselVisible) return;
-
-            descriptionElement.innerHTML = "";
-            carousselContainer.classList.remove("visible");
-            allWordsContainer.classList.remove("pushed");
-            selectedTitle.classList.remove("visible");
-
-            if (currentSelectedWord) {
-              currentSelectedWord.classList.remove("hidden", "active");
-            }
-
-            carouselVisible = false;
-            currentSelectedWord = null;
-          }
-
-          // Title closes the fold
-          selectedTitle.addEventListener("click", (e) => {
-            e.stopPropagation();
-            closeProject();
-          });
-
-          function updateCarousel(images) {
-            currentImages = images || [];
-            activeIndex = 0;
-            imagesWrapper.innerHTML = "";
-            imagesWrapper.style.transition = "none";
-
-            if (currentImages.length <= ITEMS_TO_SHOW) {
-              prevBtn.classList.add("hidden");
-              nextBtn.classList.add("hidden");
-
-              currentImages.forEach((src, idx) => {
-                const img = document.createElement("img");
-                img.src = src;
-                img.dataset.index = String(idx);
-                imagesWrapper.appendChild(img);
-              });
-
-              imagesWrapper.style.transform = "translateX(0px)";
-              return;
-            }
-
-            prevBtn.classList.remove("hidden");
-            nextBtn.classList.remove("hidden");
-
-            const clonesStart = currentImages.slice(-ITEMS_TO_SHOW);
-            const clonesEnd = currentImages.slice(0, ITEMS_TO_SHOW);
-            const allSlides = [...clonesStart, ...currentImages, ...clonesEnd];
-
-            allSlides.forEach((src, i) => {
-              const img = document.createElement("img");
-              img.src = src;
-
-              const realIndex =
-                (i - ITEMS_TO_SHOW + currentImages.length) % currentImages.length;
-              img.dataset.index = String(realIndex);
-
-              imagesWrapper.appendChild(img);
-            });
-
-            const initialOffset = -SLIDE_WIDTH * ITEMS_TO_SHOW;
-            imagesWrapper.style.transform = `translateX(${initialOffset}px)`;
-
-            setTimeout(() => {
-              imagesWrapper.style.transition = "transform 1s ease-in-out";
-            }, 50);
-          }
-
-          function moveToNext() {
-            if (isTransitioning) return;
-            if (!currentImages || currentImages.length === 0) return;
-
-            isTransitioning = true;
-            activeIndex++;
-            const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-            imagesWrapper.style.transform = `translateX(${offset}px)`;
-          }
-
-          function moveToPrev() {
-            if (isTransitioning) return;
-            if (!currentImages || currentImages.length === 0) return;
-
-            isTransitioning = true;
-            activeIndex--;
-            const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-            imagesWrapper.style.transform = `translateX(${offset}px)`;
-          }
-
-          function stopCarouselAutoplay() {
-            if (carouselTimer) {
-            clearInterval(carouselTimer);
-            carouselTimer = null;
-          }
-        }
-
-          function startCarouselAutoplay() {
-            stopCarouselAutoplay();
-
-          // pas d'autoplay si pas assez d'images
-            if (!currentImages || currentImages.length <= ITEMS_TO_SHOW) return;
-
-            carouselTimer = setInterval(() => {
-            if (!carouselVisible) return;
-            if (isTransitioning) return;
-
-            moveToNext();
-            }, CAROUSEL_AUTOPLAY_MS);
-          }
-
-          function handleTransitionEnd() {
-            if (!currentImages || currentImages.length === 0) {
-              isTransitioning = false;
-              return;
-            }
-
-            if (activeIndex >= currentImages.length) {
-              imagesWrapper.style.transition = "none";
-              activeIndex = 0;
-              const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-              imagesWrapper.style.transform = `translateX(${offset}px)`;
-            } else if (activeIndex < 0) {
-              imagesWrapper.style.transition = "none";
-              activeIndex = currentImages.length - 1;
-              const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
-              imagesWrapper.style.transform = `translateX(${offset}px)`;
-            }
-
-            setTimeout(() => {
-              imagesWrapper.style.transition = "transform 1s ease-in-out";
-            }, 50);
-
-            isTransitioning = false;
-          }
-
-          nextBtn.addEventListener("click", moveToNext);
-          prevBtn.addEventListener("click", moveToPrev);
-          imagesWrapper.addEventListener("transitionend", handleTransitionEnd);
-
-          function renderModules(blocks = []) {
-            modulesContainer.innerHTML = "";
-
-            blocks.forEach((block) => {
-              if (!block || !block.type) return;
-
-              /* ---------- YOUTUBE ---------- */
-              if (block.type === "youtube") {
-                const iframe = document.createElement("iframe");
-                iframe.className = "module-youtube";
-                iframe.src = `https://www.youtube-nocookie.com/embed/${block.youtubeId}?rel=0&modestbranding=1`;
-                iframe.allow =
-                  "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                iframe.allowFullscreen = true;
-
-                modulesContainer.appendChild(iframe);
-
-                if (block.caption) {
-                  const cap = document.createElement("div");
-                  cap.className = "module-caption";
-                  cap.textContent = block.caption;
-                  modulesContainer.appendChild(cap);
-                }
-
-                return;
-              }
-
-              /* ---------- VIMEO ---------- */
-              if (block.type === "vimeo") {
-                const iframe = document.createElement("iframe");
-                iframe.className = "module-youtube"; // on réutilise le même sizing
-                iframe.src = `https://player.vimeo.com/video/${block.vimeoId}?title=0&byline=0&portrait=0`;
-                iframe.allow = "autoplay; fullscreen; picture-in-picture";
-                iframe.allowFullscreen = true;
-
-                modulesContainer.appendChild(iframe);
-
-                if (block.caption) {
-                  const cap = document.createElement("div");
-                  cap.className = "module-caption";
-                  cap.textContent = block.caption;
-                  modulesContainer.appendChild(cap);
-                }
-
-                return;
-              }
-
-              if (block.type === "image") {
-                const img = document.createElement("img");
-                img.className = "module-image";
-                img.src = block.src || "";
-                img.alt = block.alt || "image";
-                modulesContainer.appendChild(img);
-                return;
-              }
-
-              if (block.type === "links") {
-                const wrap = document.createElement("div");
-                wrap.className = "module-links";
-                (block.links || []).forEach((l) => {
-                  const a = document.createElement("a");
-                  a.href = l.url;
-                  a.target = "_blank";
-                  a.rel = "noopener noreferrer";
-                  a.textContent = l.label;
-                  wrap.appendChild(a);
-                });
-                modulesContainer.appendChild(wrap);
-                return;
-              }
-
-              if (block.type === "pdf") {
-                const wrapper = document.createElement("div");
-                wrapper.className = "pdf-wrapper";
-
-                const iframe = document.createElement("iframe");
-                iframe.className = "module-pdf";
-
-                const src = block.src || "";
-                iframe.src = `${src}#toolbar=0&navpanes=0&scrollbar=0`;
-                iframe.loading = "lazy";
-                iframe.height = block.height || 700;
-
-                wrapper.appendChild(iframe);
-                modulesContainer.appendChild(wrapper);
-                return;
-              }
-
-              if (block.type === "grid" && Array.isArray(block.images)) {
-                const grid = document.createElement("div");
-                grid.className = "module-grid";
-
-                block.images.forEach((src, idx) => {
-                const img = document.createElement("img");
-                img.className = "module-grid-thumb";
-                img.src = src;
-                img.alt = `thumb-${idx}`;
-                img.dataset.index = String(idx);
-
-                img.addEventListener("click", (e) => {
-                e.stopPropagation();
-
-              // ✅ IMPORTANT : on définit la "galerie" courante pour la lightbox
-                currentImages = block.images;
-                lightboxIndex = idx;
-                showLightboxAt(idx);
-
-              // si tu as autoplay carousel :
-                if (typeof stopCarouselAutoplay === "function") stopCarouselAutoplay();
-              });
-
-              grid.appendChild(img);
-            });
-
-              modulesContainer.appendChild(grid);
-              return;
-            }
-          });
-        }
-
-          function applyProject(word) {
-            const key = word.textContent.trim();
-            const data = wordToClass[key] || {};
-
-            const persona = data.persona || "mathieu";
-            switchPersona(persona);
-
-            selectedTitle.textContent = key;
-            descriptionElement.innerHTML = data.description || "";
-
-            const blocks = data.blocks || [];
-            const carouselBlock = blocks.find((b) => b.type === "carousel");
-            const carouselImages = carouselBlock?.images || data.images || [];
-
-            const carouselContainer = document.querySelector(".caroussel-image");
-
-            if (carouselImages.length > 0) {
-            carouselContainer.classList.remove("is-empty");
-            updateCarousel(carouselImages);
-            } else {
-            carouselContainer.classList.add("is-empty");
-            imagesWrapper.innerHTML = "";
-          }
-
-            const otherBlocks =
-              blocks.length > 0 ? blocks.filter((b) => b.type !== "carousel") : [];
-            renderModules(otherBlocks);
-          }
-
-          words.forEach((word) => {
-            word.addEventListener("click", () => {
-              // If closed -> open
-              if (!carouselVisible) {
-                carouselVisible = true;
-                currentSelectedWord = word;
-
-                word.classList.add("active", "hidden");
-                applyProject(word);
-                startCarouselAutoplay();
-
-                selectedTitle.textContent = word.textContent.trim();
-                requestAnimationFrame(() => selectedTitle.classList.add("visible"));
-
-                carousselContainer.classList.add("visible");
-                allWordsContainer.classList.add("pushed");
-                return;
-              }
-
-              // Switch project: close then open
-              selectedTitle.classList.remove("visible");
-              carousselContainer.classList.remove("visible");
-              allWordsContainer.classList.remove("pushed");
-
-              setTimeout(() => {
-                if (currentSelectedWord) {
-                  currentSelectedWord.classList.remove("hidden", "active");
-                }
-
-                currentSelectedWord = word;
-                word.classList.add("active", "hidden");
-
-                applyProject(word);
-                startCarouselAutoplay();
-
-                selectedTitle.textContent = word.textContent.trim();
-                requestAnimationFrame(() => selectedTitle.classList.add("visible"));
-
-                carousselContainer.classList.add("visible");
-                allWordsContainer.classList.add("pushed");
-              }, OPEN_CLOSE_MS);
-            });
-          });
-
-          // --- Lightbox (gallery) ---
-          const lightbox = document.createElement("div");
-          lightbox.classList.add("lightbox");
-
-          const lightboxContent = document.createElement("div");
-          lightboxContent.classList.add("lightbox-content");
-
-          const lightboxImg = document.createElement("img");
-          const lightboxLabel = document.createElement("div");
-          lightboxLabel.classList.add("lightbox-label");
-
-          const lightboxHint = document.createElement("div");
-          lightboxHint.classList.add("lightbox-hint");
-          lightboxHint.textContent = "← → pour naviguer (Esc pour fermer)";
-
-          lightboxContent.appendChild(lightboxImg);
-          lightboxContent.appendChild(lightboxLabel);
-          lightboxContent.appendChild(lightboxHint);
-          lightbox.appendChild(lightboxContent);
-          document.body.appendChild(lightbox);
-
-          function showLightboxAt(index) {
-            if (!currentImages || currentImages.length === 0) return;
-
-            lightboxIndex = (index + currentImages.length) % currentImages.length;
-            lightboxImg.src = currentImages[lightboxIndex];
-
-            const projectName = currentSelectedWord
-              ? currentSelectedWord.textContent.trim()
-              : "";
-            lightboxLabel.textContent = `${projectName} — ${
-              lightboxIndex + 1
-            }/${currentImages.length}`;
-
-            lightbox.classList.add("visible");
-          }
-
-          document.addEventListener("click", (e) => {
-            const target = e.target;
-
-            if (target.tagName === "IMG" && target.closest(".images-wrapper")) {
-              if (!currentSelectedWord) return;
-              const idx = Number(target.dataset.index || 0);
-              showLightboxAt(idx);
-              stopCarouselAutoplay();
-              return;
-            }
-
-            if (target === lightbox) {
-              lightbox.classList.remove("visible");
-            }
-          });
-
-          lightboxImg.addEventListener("click", (e) => {
-            if (!lightbox.classList.contains("visible")) return;
-            const x = e.clientX;
-            if (x > window.innerWidth / 2) showLightboxAt(lightboxIndex + 1);
-            else showLightboxAt(lightboxIndex - 1);
-          });
-
-          document.addEventListener("keydown", (e) => {
-            if (!lightbox.classList.contains("visible")) return;
-
-            if (e.key === "Escape") {
-              lightbox.classList.remove("visible");
-            } else if (e.key === "ArrowRight") {
-              showLightboxAt(lightboxIndex + 1);
-            } else if (e.key === "ArrowLeft") {
-              showLightboxAt(lightboxIndex - 1);
-            }
-          });
-
-          let startX = null;
-
-          lightbox.addEventListener(
-            "touchstart",
-            (e) => {
-              if (!lightbox.classList.contains("visible")) return;
-              startX = e.touches[0].clientX;
-            },
-            { passive: true }
-          );
-
-          lightbox.addEventListener("touchend", (e) => {
-            if (startX === null) return;
-            const endX = e.changedTouches[0].clientX;
-            const dx = endX - startX;
-
-            if (Math.abs(dx) > 40) {
-              if (dx < 0) showLightboxAt(lightboxIndex + 1);
-              else showLightboxAt(lightboxIndex - 1);
-            }
-            startX = null;
-          });
-        });
-
-        
-      </script>
-
-      <script>
-        function glitchText(targetSelector, duration = 400) {
-          const el = document.querySelector(targetSelector);
-          if (!el) return;
-          if (el.dataset.glitching === "1") return;
-          el.dataset.glitching = "1";
-          const rect = el.getBoundingClientRect();
-          const glitchColor = getComputedStyle(el).color; // ✅ couleur du thème
-
-
-          const overlay = document.createElement("div");
-          overlay.style.position = "absolute";
-          overlay.style.top = 0;
-          overlay.style.left = 0;
-          overlay.style.width = rect.width + "px";
-          overlay.style.height = rect.height + "px";
-          overlay.style.pointerEvents = "none";
-          overlay.style.overflow = "hidden";
-
-          el.style.position = "relative";
-          el.style.color = "transparent";
-          el.appendChild(overlay);
-
-          function spawnRects() {
-            overlay.innerHTML = "";
-            const rectCount = 2;
-
-            for (let i = 0; i < rectCount; i++) {
-              const r = document.createElement("div");
-              const w = 5 + Math.random() * 300;
-              const h = 5 + Math.random() * 50;
-              const x = Math.random() * (rect.width - w);
-              const y = Math.random() * (rect.height - h);
-
-              r.style.position = "absolute";
-              r.style.left = x + "px";
-              r.style.top = y + "px";
-              r.style.width = w + "px";
-              r.style.height = h + "px";
-              r.style.background = "black";
-              r.style.opacity = Math.random() * 0.9;
-
-              overlay.appendChild(r);
-            }
-          }
-
-          spawnRects();
-          const scramble = setInterval(spawnRects, 50);
-
-          setTimeout(() => {
-            clearInterval(scramble);
-
-            overlay.innerHTML = "";
-
-            const bar = document.createElement("div");
-            bar.style.position = "absolute";
-            bar.style.left = rect.width * 0.05 + "px";
-            bar.style.top = rect.height / 2 - 5 + "px";
-            bar.style.width = rect.width * 0.9 + "px";
-            bar.style.height = "30px";
-            bar.style.background = "black";
-            bar.style.opacity = 1;
-
-            overlay.appendChild(bar);
-
-            setTimeout(() => {
-              overlay.style.opacity = 0;
-
-              setTimeout(() => {
-                el.style.color = "black";
-                overlay.remove();
-                el.dataset.glitching = "0";
-              }, 50);
-            }, 90);
-          }, duration);
-        }
-
-        window.addEventListener("DOMContentLoaded", () => {
-        const selector = ".site-title > span";
-
-        // 1er glitch au chargement
-        glitchText(selector);
-
-        // re-trigger aléatoire
-        function scheduleRandomGlitch() {
-          // entre 10s et 25s (ajuste si tu veux)
-          const delay = 10000 + Math.random() * 17000;
-          const duration = 50 + Math.random() * 200; // combien de temps ça dure
-
-          setTimeout(() => {
-            if (!document.hidden) {
-              glitchText(selector, duration);
-            }
-            scheduleRandomGlitch();
-          }, delay);
-        }
-
-        scheduleRandomGlitch();
+    </div>
+
+    <script>
+/* ----------------------------
+   Random theme (once per refresh)
+---------------------------- */
+(function applyRandomTheme() {
+  const r = Math.random();
+  // 10% alt-a, 10% alt-b
+  if (r < 0.10) document.documentElement.classList.add("theme-alt-a");
+  else if (r < 0.20) document.documentElement.classList.add("theme-alt-b");
+})();
+
+/* ----------------------------
+   Glitch (theme-colored)
+---------------------------- */
+function glitchText(targetSelector, duration = 450) {
+  const el = document.querySelector(targetSelector);
+  if (!el) return;
+  if (el.dataset.glitching === "1") return;
+  el.dataset.glitching = "1";
+
+  const rect = el.getBoundingClientRect();
+  const glitchColor = getComputedStyle(el).color;
+
+  const overlay = document.createElement("div");
+  Object.assign(overlay.style, {
+    position: "absolute",
+    inset: "0",
+    width: rect.width + "px",
+    height: rect.height + "px",
+    pointerEvents: "none",
+    overflow: "hidden",
+  });
+
+  el.style.position = "relative";
+  el.style.color = "transparent";
+  el.appendChild(overlay);
+
+  function spawnRects() {
+    overlay.innerHTML = "";
+    for (let i = 0; i < 2; i++) {
+      const r = document.createElement("div");
+      const w = 5 + Math.random() * 300;
+      const h = 5 + Math.random() * 50;
+      const x = Math.random() * (rect.width - w);
+      const y = Math.random() * (rect.height - h);
+      Object.assign(r.style, {
+        position: "absolute",
+        left: x + "px",
+        top: y + "px",
+        width: w + "px",
+        height: h + "px",
+        background: glitchColor,
+        opacity: 0.4 + Math.random() * 0.6,
+      });
+      overlay.appendChild(r);
+    }
+  }
+
+  spawnRects();
+  const scramble = setInterval(spawnRects, 50);
+
+  setTimeout(() => {
+    clearInterval(scramble);
+    overlay.innerHTML = "";
+
+    const bar = document.createElement("div");
+    Object.assign(bar.style, {
+      position: "absolute",
+      left: rect.width * 0.05 + "px",
+      top: rect.height / 2 - 5 + "px",
+      width: rect.width * 0.9 + "px",
+      height: "30px",
+      background: glitchColor,
+      opacity: 1,
+    });
+    overlay.appendChild(bar);
+
+    setTimeout(() => {
+      overlay.style.opacity = 0;
+      setTimeout(() => {
+        el.style.color = "";
+        overlay.remove();
+        el.dataset.glitching = "0";
+      }, 50);
+    }, 90);
+  }, duration);
+}
+
+function scheduleRandomGlitch(selector) {
+  function loop() {
+    const delay = 10000 + Math.random() * 17000; // 10–27s
+    const duration = 80 + Math.random() * 220;
+    setTimeout(() => {
+      if (!document.hidden) glitchText(selector, duration);
+      loop();
+    }, delay);
+  }
+  loop();
+}
+
+/* ----------------------------
+   Main
+---------------------------- */
+window.addEventListener("DOMContentLoaded", async () => {
+  const TITLE_SELECTOR = "#siteTitleText";
+
+  // Title click => refresh
+  document.querySelector(".site-title")?.addEventListener("click", () => window.location.reload());
+
+  // Initial + random glitch
+  glitchText(TITLE_SELECTOR, 450);
+  scheduleRandomGlitch(TITLE_SELECTOR);
+
+  // Fetch projects ONCE
+  const res = await fetch("./assets/projects.json");
+  const projects = await res.json();
+
+  // DOM refs
+  const words = document.querySelectorAll(".word");
+  const descriptionEl = document.querySelector(".word-description");
+  const foldEl = document.querySelector(".caroussel-container");
+  const allWordsEl = document.querySelector(".all-words");
+  const selectedTitleEl = document.querySelector(".selected-project-title");
+  const modulesEl = document.querySelector(".project-modules");
+  const carouselEl = document.querySelector(".caroussel-image");
+
+  const imagesWrapper = document.querySelector(".images-wrapper");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  // Persona => title only
+  const titleTextEl = document.querySelector(TITLE_SELECTOR);
+  let currentPersona = "mathieu";
+
+  function personaToTitle(persona) {
+    if (persona === "maurice") return "MAURICE LEBRUN [alias]";
+    if (persona === "franky") return "FRANKY FAHRENHEIT [alias]";
+    return "MATHIEU STAUB";
+  }
+
+  function switchPersona(persona) {
+    if (!persona) persona = "mathieu";
+    if (persona === currentPersona) return;
+
+    currentPersona = persona;
+    glitchText(TITLE_SELECTOR, 450);
+
+    setTimeout(() => {
+      if (titleTextEl) titleTextEl.textContent = personaToTitle(persona);
+    }, 450);
+  }
+
+  // Carousel state
+  const ITEMS_TO_SHOW = 3;
+  const THUMB_W = 220;
+  const GAP = 5;
+  const SLIDE_WIDTH = THUMB_W + GAP;
+  const OPEN_CLOSE_MS = 1000;
+  const CAROUSEL_AUTOPLAY_MS = 5000;
+
+  let carouselVisible = false;
+  let currentSelectedWord = null;
+  let activeIndex = 0;
+  let currentImages = [];
+  let isTransitioning = false;
+  let carouselTimer = null;
+
+  function stopCarouselAutoplay() {
+    if (carouselTimer) {
+      clearInterval(carouselTimer);
+      carouselTimer = null;
+    }
+  }
+
+  function startCarouselAutoplay() {
+    stopCarouselAutoplay();
+    if (!currentImages || currentImages.length <= ITEMS_TO_SHOW) return;
+
+    carouselTimer = setInterval(() => {
+      if (!carouselVisible) return;
+      if (isTransitioning) return;
+      moveToNext();
+    }, CAROUSEL_AUTOPLAY_MS);
+  }
+
+  function updateCarousel(images) {
+    currentImages = images || [];
+    activeIndex = 0;
+
+    imagesWrapper.innerHTML = "";
+    imagesWrapper.style.transition = "none";
+
+    if (currentImages.length <= ITEMS_TO_SHOW) {
+      prevBtn.classList.add("hidden");
+      nextBtn.classList.add("hidden");
+
+      currentImages.forEach((src, idx) => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.dataset.index = String(idx);
+        img.loading = "lazy";
+        img.decoding = "async";
+        imagesWrapper.appendChild(img);
       });
 
-      </script>
-          <!-- ... ton contenu HTML actuel ... -->
+      imagesWrapper.style.transform = "translateX(0px)";
+      return;
+    }
 
-      <script>
-      window.addEventListener("DOMContentLoaded", async () => {
-        const res = await fetch("./assets/projects.json");
-        const projects = await res.json();
+    prevBtn.classList.remove("hidden");
+    nextBtn.classList.remove("hidden");
 
-        // Liste d'items: { src, project }
-        const items = [];
+    const clonesStart = currentImages.slice(-ITEMS_TO_SHOW);
+    const clonesEnd = currentImages.slice(0, ITEMS_TO_SHOW);
+    const allSlides = [...clonesStart, ...currentImages, ...clonesEnd];
 
-        function pushUnique(src, project) {
-          if (!src) return;
-          const key = `${project}||${src}`;
-          if (items.some(it => `${it.project}||${it.src}` === key)) return;
-          items.push({ src, project });
+    allSlides.forEach((src, i) => {
+      const img = document.createElement("img");
+      img.src = src;
+
+      const realIndex = (i - ITEMS_TO_SHOW + currentImages.length) % currentImages.length;
+      img.dataset.index = String(realIndex);
+
+      img.loading = "lazy";
+      img.decoding = "async";
+
+      imagesWrapper.appendChild(img);
+    });
+
+    const initialOffset = -SLIDE_WIDTH * ITEMS_TO_SHOW;
+    imagesWrapper.style.transform = `translateX(${initialOffset}px)`;
+
+    setTimeout(() => {
+      imagesWrapper.style.transition = "transform 1000ms ease-in-out";
+    }, 50);
+  }
+
+  function moveToNext() {
+    if (isTransitioning) return;
+    if (!currentImages || currentImages.length === 0) return;
+
+    isTransitioning = true;
+    activeIndex++;
+    const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+    imagesWrapper.style.transform = `translateX(${offset}px)`;
+  }
+
+  function moveToPrev() {
+    if (isTransitioning) return;
+    if (!currentImages || currentImages.length === 0) return;
+
+    isTransitioning = true;
+    activeIndex--;
+    const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+    imagesWrapper.style.transform = `translateX(${offset}px)`;
+  }
+
+  function handleTransitionEnd() {
+    if (!currentImages || currentImages.length === 0) {
+      isTransitioning = false;
+      return;
+    }
+
+    if (activeIndex >= currentImages.length) {
+      imagesWrapper.style.transition = "none";
+      activeIndex = 0;
+      const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+      imagesWrapper.style.transform = `translateX(${offset}px)`;
+    } else if (activeIndex < 0) {
+      imagesWrapper.style.transition = "none";
+      activeIndex = currentImages.length - 1;
+      const offset = -SLIDE_WIDTH * (activeIndex + ITEMS_TO_SHOW);
+      imagesWrapper.style.transform = `translateX(${offset}px)`;
+    }
+
+    setTimeout(() => {
+      imagesWrapper.style.transition = "transform 1000ms ease-in-out";
+    }, 50);
+
+    isTransitioning = false;
+  }
+
+  nextBtn.addEventListener("click", moveToNext);
+  prevBtn.addEventListener("click", moveToPrev);
+  imagesWrapper.addEventListener("transitionend", handleTransitionEnd);
+
+  // Lightbox
+  const lightbox = document.createElement("div");
+  lightbox.classList.add("lightbox");
+
+  const lightboxContent = document.createElement("div");
+  lightboxContent.classList.add("lightbox-content");
+
+  const lightboxImg = document.createElement("img");
+  const lightboxLabel = document.createElement("div");
+  lightboxLabel.classList.add("lightbox-label");
+
+  const lightboxHint = document.createElement("div");
+  lightboxHint.classList.add("lightbox-hint");
+  lightboxHint.textContent = "← → pour naviguer (Esc pour fermer)";
+
+  lightboxContent.appendChild(lightboxImg);
+  lightboxContent.appendChild(lightboxLabel);
+  lightboxContent.appendChild(lightboxHint);
+  lightbox.appendChild(lightboxContent);
+  document.body.appendChild(lightbox);
+
+  let lightboxIndex = 0;
+
+  function showLightboxAt(index) {
+    if (!currentImages || currentImages.length === 0) return;
+    lightboxIndex = (index + currentImages.length) % currentImages.length;
+    lightboxImg.src = currentImages[lightboxIndex];
+
+    const projectName = currentSelectedWord ? currentSelectedWord.textContent.trim() : "";
+    lightboxLabel.textContent = `${projectName} — ${lightboxIndex + 1}/${currentImages.length}`;
+
+    lightbox.classList.add("visible");
+  }
+
+  imagesWrapper.addEventListener("click", (e) => {
+    const t = e.target;
+    if (!t || t.tagName !== "IMG") return;
+    if (!currentSelectedWord) return;
+    const idx = Number(t.dataset.index || 0);
+    showLightboxAt(idx);
+    stopCarouselAutoplay();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target === lightbox) lightbox.classList.remove("visible");
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("visible")) return;
+    if (e.key === "Escape") lightbox.classList.remove("visible");
+    else if (e.key === "ArrowRight") showLightboxAt(lightboxIndex + 1);
+    else if (e.key === "ArrowLeft") showLightboxAt(lightboxIndex - 1);
+  });
+
+  // Modules
+  function renderModules(blocks = []) {
+    modulesEl.innerHTML = "";
+
+    blocks.forEach((block) => {
+      if (!block || !block.type) return;
+
+      if (block.type === "youtube") {
+        const iframe = document.createElement("iframe");
+        iframe.className = "module-youtube";
+        iframe.src = `https://www.youtube-nocookie.com/embed/${block.youtubeId}?rel=0&modestbranding=1`;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.loading = "lazy";
+        modulesEl.appendChild(iframe);
+
+        if (block.caption) {
+          const cap = document.createElement("div");
+          cap.className = "module-caption";
+          cap.textContent = block.caption;
+          modulesEl.appendChild(cap);
+        }
+        return;
+      }
+
+      if (block.type === "vimeo") {
+        const iframe = document.createElement("iframe");
+        iframe.className = "module-youtube";
+        iframe.src = `https://player.vimeo.com/video/${block.vimeoId}?title=0&byline=0&portrait=0`;
+        iframe.allow = "autoplay; fullscreen; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.loading = "lazy";
+        modulesEl.appendChild(iframe);
+
+        if (block.caption) {
+          const cap = document.createElement("div");
+          cap.className = "module-caption";
+          cap.textContent = block.caption;
+          modulesEl.appendChild(cap);
+        }
+        return;
+      }
+
+      if (block.type === "image") {
+        const img = document.createElement("img");
+        img.className = "module-image";
+        img.src = block.src || "";
+        img.alt = block.alt || "image";
+        img.loading = "lazy";
+        img.decoding = "async";
+        modulesEl.appendChild(img);
+        return;
+      }
+
+      if (block.type === "links") {
+        const wrap = document.createElement("div");
+        wrap.className = "module-links";
+        (block.links || []).forEach((l) => {
+          const a = document.createElement("a");
+          a.href = l.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.textContent = l.label;
+          wrap.appendChild(a);
+        });
+        modulesEl.appendChild(wrap);
+        return;
+      }
+
+      if (block.type === "pdf") {
+        const wrapper = document.createElement("div");
+        wrapper.className = "pdf-wrapper";
+
+        const iframe = document.createElement("iframe");
+        iframe.className = "module-pdf";
+        const src = block.src || "";
+        iframe.src = `${src}#toolbar=0&navpanes=0&scrollbar=0`;
+        iframe.loading = "lazy";
+        iframe.height = block.height || 700;
+
+        wrapper.appendChild(iframe);
+        modulesEl.appendChild(wrapper);
+        return;
+      }
+
+      if (block.type === "grid" && Array.isArray(block.images)) {
+        const grid = document.createElement("div");
+        grid.className = "module-grid";
+
+        block.images.forEach((src, idx) => {
+          const img = document.createElement("img");
+          img.className = "module-grid-thumb";
+          img.src = src;
+          img.alt = `thumb-${idx}`;
+          img.loading = "lazy";
+          img.decoding = "async";
+
+          img.addEventListener("click", (ev) => {
+            ev.stopPropagation();
+            currentImages = block.images;
+            showLightboxAt(idx);
+            stopCarouselAutoplay();
+          });
+
+          grid.appendChild(img);
+        });
+
+        modulesEl.appendChild(grid);
+        return;
+      }
+    });
+  }
+
+  function applyProject(word) {
+    const key = word.textContent.trim();
+    const data = projects[key] || {};
+
+    switchPersona(data.persona || "mathieu");
+
+    selectedTitleEl.textContent = key;
+    descriptionEl.innerHTML = data.description || "";
+
+    const blocks = data.blocks || [];
+    const carouselBlock = blocks.find((b) => b.type === "carousel");
+    const carouselImages = carouselBlock?.images || data.images || [];
+
+    if (carouselImages.length > 0) {
+      carouselEl.classList.remove("is-empty");
+      updateCarousel(carouselImages);
+    } else {
+      carouselEl.classList.add("is-empty");
+      imagesWrapper.innerHTML = "";
+      currentImages = [];
+    }
+
+    renderModules(blocks.filter((b) => b.type !== "carousel"));
+  }
+
+  function closeProject() {
+    switchPersona("mathieu");
+    stopCarouselAutoplay();
+    if (!carouselVisible) return;
+
+    descriptionEl.innerHTML = "";
+    foldEl.classList.remove("visible");
+    allWordsEl.classList.remove("pushed");
+    selectedTitleEl.classList.remove("visible");
+
+    if (currentSelectedWord) currentSelectedWord.classList.remove("hidden", "active");
+
+    carouselVisible = false;
+    currentSelectedWord = null;
+  }
+
+  selectedTitleEl.addEventListener("click", (e) => {
+    e.stopPropagation();
+    closeProject();
+  });
+
+  words.forEach((word) => {
+    word.addEventListener("click", () => {
+      if (!carouselVisible) {
+        carouselVisible = true;
+        currentSelectedWord = word;
+
+        word.classList.add("active", "hidden");
+        applyProject(word);
+        startCarouselAutoplay();
+
+        selectedTitleEl.classList.add("visible");
+        foldEl.classList.add("visible");
+        allWordsEl.classList.add("pushed");
+        return;
+      }
+
+      selectedTitleEl.classList.remove("visible");
+      foldEl.classList.remove("visible");
+      allWordsEl.classList.remove("pushed");
+
+      setTimeout(() => {
+        if (currentSelectedWord) currentSelectedWord.classList.remove("hidden", "active");
+
+        currentSelectedWord = word;
+        word.classList.add("active", "hidden");
+
+        applyProject(word);
+        startCarouselAutoplay();
+
+        selectedTitleEl.classList.add("visible");
+        foldEl.classList.add("visible");
+        allWordsEl.classList.add("pushed");
+      }, OPEN_CLOSE_MS);
+    });
+  });
+
+  /* ----------------------------
+     Bottom slideshow items + word mapping (needed!)
+  ---------------------------- */
+  const slideFrame = document.querySelector(".random-slideshow-frame");
+  const slideCap = document.querySelector(".random-slideshow-caption");
+  const flash = document.querySelector(".random-slideshow-flash");
+
+  const items = [];
+  function pushUnique(src, project) {
+    if (!src) return;
+    const k = `${project}||${src}`;
+    if (items.some((it) => `${it.project}||${it.src}` === k)) return;
+    items.push({ src, project });
+  }
+
+  Object.entries(projects).forEach(([projectName, projectData]) => {
+    if (Array.isArray(projectData.images)) {
+      projectData.images.forEach((src) => pushUnique(src, projectName));
+    }
+
+    if (Array.isArray(projectData.blocks)) {
+      projectData.blocks.forEach((block) => {
+        if (block.type === "carousel" && Array.isArray(block.images)) {
+          block.images.forEach((src) => pushUnique(src, projectName));
         }
 
-        // Parcourt tous les projets du JSON
-        Object.entries(projects).forEach(([projectName, projectData]) => {
-        // Ancien format: images: [...]
-          if (Array.isArray(projectData.images)) {
-            projectData.images.forEach(src => pushUnique(src, projectName));
+        if (block.type === "image" && typeof block.src === "string") {
+          pushUnique(block.src, projectName);
         }
 
-        // Nouveau format: blocks: [...]
-          if (Array.isArray(projectData.blocks)) {
-            projectData.blocks.forEach(block => {
-        // Images de carousel
-          if (block.type === "carousel" && Array.isArray(block.images)) {
-            block.images.forEach(src => pushUnique(src, projectName));
-        }
-        // Images module (type: image)
-          if (block.type === "image" && typeof block.src === "string") {
-            pushUnique(block.src, projectName);
+        if (block.type === "grid" && Array.isArray(block.images)) {
+          block.images.forEach((src) => pushUnique(src, projectName));
         }
       });
     }
   });
 
-        if (!items.length) return;
 
-        const imgEl = document.querySelector(".random-slideshow-image");
-        const captionEl = document.querySelector(".random-slideshow-caption");
-
-        let currentIndex = -1;
-
-        function pickRandomIndex() {
-          if (items.length === 1) return 0;
-          let i;
-          do {
-            i = Math.floor(Math.random() * items.length);
-          } while (i === currentIndex);
-          return i;
-        }
-
-        function setSlide(i) {
-        const it = items[i];
-        imgEl.src = it.src;
-        captionEl.textContent = it.project;
-        }
-
-        function nextSlide() {
-        // fade out image + caption
-        imgEl.style.opacity = 0;
-        captionEl.style.opacity = 0;
-
-        setTimeout(() => {
-          currentIndex = pickRandomIndex();
-          setSlide(currentIndex);
-
-        // fade in image + caption
-          requestAnimationFrame(() => {
-            imgEl.style.opacity = 1;
-            captionEl.style.opacity = 1;
-        });
-        }, 900); // <= durée du transition (1s)
-      }
-
-        // init
-        currentIndex = pickRandomIndex();
-        setSlide(currentIndex);
-        imgEl.style.opacity = 1;
-        captionEl.style.opacity = 1;
-
-        setInterval(nextSlide, 7000);
-
-        const slideshowFrame = document.querySelector(".random-slideshow-frame");
-
-function normalize(s) {
-  return (s || "")
-    .toString()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")   // enlève accents
-    .replace(/\[new\]/gi, "")          // enlève [NEW] seulement
-    .replace(/[\[\]#]/g, "")           // enlève [ ] et #
-    .replace(/&/g, " ")                // & -> espace
-    .replace(/[^a-z0-9\s]/gi, " ")     // ponctuation -> espace
-    .replace(/\s+/g, " ")              // espaces multiples
-    .trim()
-    .toLowerCase();
-}
-
-// Map: texte du word normalisé -> élément .word
-const wordMap = new Map(
-  Array.from(document.querySelectorAll(".word")).map((w) => [
-    normalize(w.textContent),
-    w,
-  ])
-);
-
-slideshowFrame.addEventListener("click", () => {
-  if (currentIndex < 0) return;
-
-  const projectName = items[currentIndex].project; // nom exact depuis le JSON
-  const targetWord = wordMap.get(normalize(projectName));
-
-  if (targetWord) {
-    targetWord.click();
-    targetWord.scrollIntoView({ behavior: "smooth", block: "center" });
+  function normalize(s) {
+    return (s || "")
+      .toString()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\[new\]/gi, "")
+      .replace(/[\[\]#]/g, "")
+      .replace(/&/g, " ")
+      .replace(/[^a-z0-9\s]/gi, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
   }
-});
 
+  const wordMap = new Map(
+    Array.from(document.querySelectorAll(".word")).map((w) => [normalize(w.textContent), w])
+  );
+
+  function displayLabel(projectName) {
+    const w = wordMap.get(normalize(projectName));
+    return w ? w.textContent.trim() : projectName;
+  }
+
+  /* ----------------------------
+   Slideshow (1 image + flash cover swap)
+  ---------------------------- */
+  const frame = document.querySelector(".random-slideshow-frame");
+  const imgEl = document.querySelector(".random-slideshow-image");
+  const slideshowflash = document.querySelector(".random-slideshow-flash");
+  const capEl = document.querySelector(".random-slideshow-caption");
+
+  let slideIndex = -1;
+  let running = false;
+
+  function pickRandomSlide() {
+    if (items.length === 1) return 0;
+    let i;
+    do { i = Math.floor(Math.random() * items.length); }
+    while (i === slideIndex);
+    return i;
+  }
+
+  function waitTransitionEnd(el) {
+    return new Promise((resolve) => {
+      const onEnd = (e) => {
+        if (e.propertyName !== "opacity") return;
+        el.removeEventListener("transitionend", onEnd);
+        resolve();
+      };
+      el.addEventListener("transitionend", onEnd);
+    });
+  }
+
+  async function preloadSrc(src) {
+    const im = new Image();
+    im.src = src;
+    if (im.decode) {
+      try { await im.decode(); } catch(e) {}
+    } else {
+      await new Promise((r) => {
+        im.onload = r;
+        im.onerror = r;
       });
-        </script>
-    <script>
-(function () {
-  const overlay = document.querySelector(".rotate-overlay");
-
-  function isTouchDevice() {
-    return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-  }
-
-  function isPortraitNow() {
-    // matchMedia n'est pas fiable partout après rotation -> fallback
-    const mq = window.matchMedia("(orientation: portrait)");
-    if (mq && typeof mq.matches === "boolean") return mq.matches;
-    return window.innerHeight >= window.innerWidth;
-  }
-
-  function resizeOverlayToViewport() {
-    if (!overlay) return;
-
-    const vv = window.visualViewport;
-    const w = vv ? vv.width : window.innerWidth;
-    const h = vv ? vv.height : window.innerHeight;
-
-    // force des dimensions réelles (contourne les bugs vh/zoom)
-    overlay.style.width = w + "px";
-    overlay.style.height = h + "px";
-    overlay.style.left = (vv ? vv.offsetLeft : 0) + "px";
-    overlay.style.top = (vv ? vv.offsetTop : 0) + "px";
-  }
-
-  function update() {
-  const touch = isTouchDevice();
-  const portrait = isPortraitNow();
-
-  const onPortrait = touch && portrait;
-  const onLandscape = touch && !portrait;
-
-  document.documentElement.classList.toggle("touch-portrait", onPortrait);
-  document.documentElement.classList.toggle("touch-landscape", onLandscape);
-
-  if (onPortrait) {
-    resizeOverlayToViewport();
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-  } else {
-    if (overlay) {
-      overlay.style.width = "";
-      overlay.style.height = "";
-      overlay.style.left = "";
-      overlay.style.top = "";
     }
-    document.documentElement.style.overflow = "";
-    document.body.style.overflow = "";
-  }
-}
-
-  // listeners robustes (Android/iOS/Brave)
-  window.addEventListener("resize", update, { passive: true });
-  window.addEventListener("orientationchange", () => {
-  update();
-  requestAnimationFrame(update);
-  setTimeout(update, 200);
-}, { passive: true });
-
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", update, { passive: true });
-    window.visualViewport.addEventListener("scroll", update, { passive: true });
   }
 
-  // init + re-checks (certains navigateurs appliquent en retard)
-  update();
-  setTimeout(update, 150);
-  setTimeout(update, 600);
-})();
-</script>
+  async function initFirstSlide() {
+    if (!items.length) return;
+    slideIndex = pickRandomSlide();
+    const it = items[slideIndex];
 
+    imgEl.src = it.src;
+    capEl.textContent = displayLabel(it.project);
+    capEl.style.opacity = 1;
+  }
 
-    </div>
+  async function goToNextSlide() {
+    if (running || !items.length) return;
+    running = true;
+
+    const nextIndex = pickRandomSlide();
+    const it = items[nextIndex];
+
+    // précharge AVANT animation
+    await preloadSrc(it.src);
+
+    // flash IN 490ms
+    slideshowflash.style.transition = "none";
+    slideshowflash.style.opacity = "0";
+    void slideshowflash.offsetHeight;
+
+    slideshowflash.style.transition = "opacity 650ms linear";
+    slideshowflash.style.opacity = "1";
+    await waitTransitionEnd(slideshowflash);
+
+    // swap sous flash
+    imgEl.src = it.src;
+    capEl.style.opacity = 0;
+    capEl.textContent = displayLabel(it.project);
+    void imgEl.offsetHeight;
+
+    // flash OUT 510ms
+    slideshowflash.style.transition = "opacity 750ms linear";
+    slideshowflash.style.opacity = "0";
+
+    setTimeout(() => { capEl.style.opacity = 1; }, 80);
+    await waitTransitionEnd(slideshowflash);
+
+    slideIndex = nextIndex;
+    running = false;
+  }
+
+  // init + interval
+  await initFirstSlide();
+  setInterval(goToNextSlide, 7000);
+
+  // click => ouvre le projet correspondant
+  frame.addEventListener("click", () => {
+    if (slideIndex < 0) return;
+    const projectName = items[slideIndex].project;
+    const targetWord = wordMap.get(normalize(projectName));
+    if (targetWord) {
+      targetWord.click();
+      targetWord.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
+
+  /* ----------------------------
+     Rotate overlay (touch portrait/landscape)
+  ---------------------------- */
+  (function initRotateOverlay() {
+    const overlay = document.querySelector(".rotate-overlay");
+
+    function isTouchDevice() {
+      return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    }
+
+    function isPortraitNow() {
+      const mq = window.matchMedia("(orientation: portrait)");
+      if (mq && typeof mq.matches === "boolean") return mq.matches;
+      return window.innerHeight >= window.innerWidth;
+    }
+
+    function resizeOverlayToViewport() {
+      if (!overlay) return;
+      const vv = window.visualViewport;
+      const w = vv ? vv.width : window.innerWidth;
+      const h = vv ? vv.height : window.innerHeight;
+      overlay.style.width = w + "px";
+      overlay.style.height = h + "px";
+      overlay.style.left = (vv ? vv.offsetLeft : 0) + "px";
+      overlay.style.top = (vv ? vv.offsetTop : 0) + "px";
+    }
+
+    function update() {
+      const touch = isTouchDevice();
+      const portrait = isPortraitNow();
+
+      const onPortrait = touch && portrait;
+      const onLandscape = touch && !portrait;
+
+      document.documentElement.classList.toggle("touch-portrait", onPortrait);
+      document.documentElement.classList.toggle("touch-landscape", onLandscape);
+
+      if (onPortrait) {
+        resizeOverlayToViewport();
+        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
+      } else {
+        if (overlay) {
+          overlay.style.width = "";
+          overlay.style.height = "";
+          overlay.style.left = "";
+          overlay.style.top = "";
+        }
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+      }
+    }
+
+    window.addEventListener("resize", update, { passive: true });
+    window.addEventListener("orientationchange", () => {
+      update();
+      requestAnimationFrame(update);
+      setTimeout(update, 200);
+    }, { passive: true });
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", update, { passive: true });
+      window.visualViewport.addEventListener("scroll", update, { passive: true });
+    }
+
+    update();
+    setTimeout(update, 150);
+    setTimeout(update, 600);
+  })();
+});
+    </script>
   </body>
 </html>
